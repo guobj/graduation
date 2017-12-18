@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.gbj.mapper.SupplierLicenseTypeMapper">
+    <resultMap type="com.gbj.model.SupplierLicenseType" id="SupplierLicenseTypeBaseResultMap">
+        <id column="st_id" property="st_id"/>
+        <result column="fk_sup_id" property="fk_sup_id"/>
+        <result column="fk_lt_id" property="fk_lt_id"/>
+        <result column="st_startdate" property="st_startdate"/>
+        <result column="st_enddate" property="st_enddate"/>
+        <association property="supplier" column="fk_sup_id" select="com.gbj.mapper.SupplierMapper.load"/>
+        <association property="licenseType" column="fk_lt_id" select="com.gbj.mapper.LicenseTypeMapper.load"/>
+    </resultMap>
+<!--     分页及模糊查询 -->
+    <select id="supplierLicenseList" parameterType="map" resultMap="SupplierLicenseTypeBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            supplier_license_type st 
+        LEFT JOIN 
+            supplier s ON st.fk_sup_id=s.sup_id
+        <where>
+            <if test="supplierlicensetype.supplier!=null">
+                AND s.sup_name LIKE concat("%",#{supplierlicensetype.supplier.sup_name},"%")
+            </if>
+        </where>
+        ORDER BY st.st_id DESC LIMIT #{record},4
+    </select>
+    <select id="count" parameterType="map" resultType="integer">
+        SELECT 
+            COUNT(*) 
+        FROM 
+            supplier_license_type st 
+        LEFT JOIN 
+            supplier s ON st.fk_sup_id=s.sup_id
+        <where>
+            <if test="supplierlicensetype.supplier!=null">
+                AND s.sup_name LIKE concat("%",#{supplierlicensetype.supplier.sup_name},"%")
+            </if>
+        </where>
+    </select>
+<!--     添加证照 -->
+    <insert id="supplierLicenseAddAction" parameterType="com.gbj.model.SupplierLicenseType">
+        INSERT INTO 
+            supplier_license_type(fk_sup_id,fk_lt_id,st_startdate,st_enddate,st_status) 
+        VALUES
+            (#{fk_sup_id},#{fk_lt_id},#{st_startdate},#{st_enddate},1)
+    </insert>
+    <!--     逻辑删除报价 -->
+    <update id="supplierLicenseDelAction" parameterType="integer">
+        UPDATE 
+            supplier_license_type 
+        SET
+            st_status=0
+        WHERE
+            st_id=#{st_id}
+        
+    </update>
+<!--     批量删除报价 -->
+    <update id="supplierLicenseMoreDelAction" parameterType="map">
+        UPDATE 
+            supplier_license_type 
+        SET
+            st_status=0
+        WHERE
+            st_id   
+        IN
+        <foreach collection="st_ids" close=")" open="(" item="st_id" separator=",">
+            #{st_id}
+        </foreach>
+    </update>
+  </mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gbj.mapper.OrderMapper">
+    <resultMap type="com.gbj.model.Order" id="OrderBaseResultMap">
+        <result column="fk_con_id" property="fk_con_id" jdbcType="INTEGER" />
+        <result column="fk_city_id" property="fk_city_id" jdbcType="INTEGER" />
+        <result column="fk_country_id" property="fk_country_id" jdbcType="INTEGER" />
+        <result column="fk_pro_id" property="fk_pro_id" jdbcType="INTEGER" />
+        <result column="fk_emp_id" property="fk_emp_id" jdbcType="INTEGER" />
+        <result column="fk_goods_id" property="fk_goods_id" jdbcType="INTEGER" />
+        <association property="consumer" column="fk_con_id" select="com.gbj.mapper.ConsumerMapper.load"/>
+        <association property="province" column="fk_pro_id" select="com.gbj.mapper.AddressMapper.loadProvince"/>
+        <association property="city" column="fk_city_id" select="com.gbj.mapper.AddressMapper.loadCity"/>
+        <association property="country" column="fk_country_id" select="com.gbj.mapper.AddressMapper.loadCountry"/>
+        <association property="employee" column="fk_emp_id" select="com.gbj.mapper.EmployeeMapper.load"/>
+        <association property="goods" column="fk_goods_id" select="com.gbj.mapper.GoodsMapper.load"/>
+    </resultMap>
+    <select id="load" parameterType="integer" resultMap="OrderBaseResultMap">
+        SELECT * FROM ordermanage WHERE or_id=#{or_id}
+    </select>
+    <select id="salesOrderList" parameterType="map" resultMap="OrderBaseResultMap">
+        SELECT * FROM ordermanage 
+        <where>
+            <if test="order.or_account!=null and order.or_account.trim()!=''">
+                AND or_account LIKE concat("%",#{order.or_account},"%")
+            </if>
+        </where>
+        ORDER BY or_id DESC LIMIT #{record},4
+    </select>
+    <select id="count" parameterType="map" resultType="integer">
+        SELECT COUNT(*) FROM ordermanage
+        <where>
+            <if test="order.or_account!=null and order.or_account.trim()!=''">
+                AND or_account LIKE concat("%",#{order.or_account},"%")
+            </if>
+        </where>
+    </select>
+<!--     新建销售订单 -->
+   <insert id="salesOrderAddAction" parameterType="com.gbj.model.Order" useGeneratedKeys="true" keyProperty="or_id">
+    INSERT INTO 
+        ordermanage(or_theme,fk_con_id,fk_pro_id,fk_city_id,fk_country_id,or_adr,or_tel,or_account,or_signdate,or_senddate,fk_emp_id,or_remark,or_status) 
+    VALUES
+        (#{or_theme},#{fk_con_id},#{fk_pro_id},#{fk_city_id},#{fk_country_id},#{or_adr},#{or_tel},#{or_account},#{or_signdate},#{or_senddate},#{fk_emp_id},#{or_remark},0)
+   </insert>
+<!-- 编辑订单明细修改执行状态 -->
+    <update id="salesOrderDetailsAction" parameterType="com.gbj.model.Order">
+        UPDATE 
+            ordermanage
+        <set>
+            <if test="fk_goods_id!=null and fk_goods_id!=''">
+                fk_goods_id=#{fk_goods_id},
+            </if>
+            <if test="or_price!=null and or_price!=''">
+                or_price=#{or_price},
+            </if>
+            <if test="or_nums!=null and or_nums!=''">
+                or_nums=#{or_nums},
+            </if>
+            <if test="or_sumprice!=null and or_sumprice!=''">
+                or_sumprice=#{or_sumprice},
+            </if>
+        </set>
+        ,or_status=1 
+        WHERE or_id=#{or_id}
+    </update>
+    <select id="loadOrder" parameterType="integer" resultMap="OrderBaseResultMap">
+        SELECT * FROM ordermanage WHERE or_id=#{or_id}
+    </select>
+<!--     修改已生成出库单的标志 -->
+    <update id="updateSignThree" parameterType="integer">
+        UPDATE 
+            ordermanage
+        SET
+            or_status=3
+        WHERE 
+            or_id=#{or_id}
+    </update>
+<!--     确认已出库交易完成标志 -->
+    <update id="updateSignTwo" parameterType="integer">
+        UPDATE 
+            ordermanage
+        SET
+            or_status=2
+        WHERE 
+            or_id=#{or_id}
+    </update>
+<!--     查询有销售量的商品 -->
+    <select id="haveOrder" resultMap="OrderBaseResultMap">
+        SELECT 
+            fk_goods_id 
+        FROM 
+            ordermanage 
+        WHERE 
+            or_status=2 
+        GROUP BY fk_goods_id
+    </select>
+<!--     对应商品总的卖出数量 -->
+    <select id="salesSumOrder" resultType="map">
+        SELECT 
+            fk_goods_id,goods_name,SUM(or_nums) AS num 
+        FROM 
+            ordermanage o 
+        LEFT JOIN 
+            goods g 
+        ON 
+            g.goods_id=o.fk_goods_id
+        WHERE 
+            or_status=2 
+        GROUP BY fk_goods_id
+        <!-- SELECT 
+            fk_goods_id,SUM(or_nums) AS num 
+        FROM 
+            ordermanage 
+        WHERE 
+            or_status=2 
+        GROUP BY fk_goods_id -->
+    </select>
+<!--     取消订单 -->
+    <update id="cancelOrder" parameterType="integer">
+        UPDATE 
+            ordermanage
+        SET
+            or_status=-1
+        WHERE 
+            or_id=#{or_id}
+    </update>
+</mapper>

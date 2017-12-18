@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.gbj.mapper.EconomicTypeMapper">
+    <resultMap type="com.gbj.model.EconomicType" id="EconomicTypeBaseResultMap">
+        <id column="et_id" property="et_id"/>
+        <result column="et_type" property="et_type"/>
+    </resultMap>
+    <select id="load" parameterType="integer" resultMap="EconomicTypeBaseResultMap">
+        SELECT * FROM economic_type WHERE et_id=#{et_id}
+    </select>
+    <select id="economicTypeList" resultType="com.gbj.model.EconomicType">
+        SELECT 
+            * 
+        FROM 
+            economic_type
+    </select>
+  </mapper>

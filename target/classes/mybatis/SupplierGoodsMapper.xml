@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.gbj.mapper.SupplierGoodsMapper">
+    <resultMap type="com.gbj.model.SupplierGoods" id="SupplierGoodsBaseResultMap">
+        <id column="sg_id" property="sg_id"/>
+        <result column="fk_sup_id" property="fk_sup_id"/>
+        <result column="fk_goods_id" property="fk_goods_id"/>
+        <result column="sg_price" property="sg_price"/>
+        <result column="sg_date" property="sg_date"/>
+        <result column="sg_remark" property="sg_remark"/>
+        <association property="supplier" column="fk_sup_id" select="com.gbj.mapper.SupplierMapper.load"/>
+        <association property="goods" column="fk_goods_id" select="com.gbj.mapper.GoodsMapper.load"/>
+    </resultMap>
+    <select id="load" parameterType="integer" resultMap="SupplierGoodsBaseResultMap">
+        SELECT * FROM supplier_goods WHERE sup_id=#{sup_id}
+    </select>
+    <select id="supplierGoodsList" parameterType="map" resultMap="SupplierGoodsBaseResultMap">
+        SELECT * FROM (SELECT 
+            sg.*,g.goods_name 
+        FROM 
+            supplier_goods sg 
+        LEFT JOIN 
+            goods g ON sg.fk_goods_id=g.goods_id) sgg LEFT JOIN supplier s ON sgg.fk_sup_id=s.sup_id
+        <where>
+             <if test="suppliergoods.supplier!=null">
+                AND s.sup_name LIKE concat("%",#{suppliergoods.supplier.sup_name},"%")
+            </if>
+            <if test="suppliergoods.goods!=null">
+                AND sgg.goods_name LIKE concat("%",#{suppliergoods.goods.goods_name},"%")
+            </if>
+        </where>
+        ORDER BY sgg.sg_id DESC LIMIT #{record},4
+    </select>
+    <select id="count" parameterType="map" resultType="integer">
+        SELECT 
+            COUNT(*) 
+        FROM 
+            supplier_goods sg 
+        LEFT JOIN goods g ON sg.fk_goods_id=g.goods_id  
+        <where>
+            <if test="goods_name!=null and goods_name.trim()!=''">
+                AND g.goods_name LIKE concat("%",#{goods_name},"%")
+            </if>
+        </where>
+        LIMIT #{record},4
+    </select>
+<!--     新增供应商报价 -->
+    <insert id="supplierGoodsAddAction" parameterType="com.gbj.model.SupplierGoods">
+        INSERT INTO 
+            supplier_goods(fk_sup_id,fk_goods_id,sg_price,sg_date,sg_remark,sg_status) 
+        VALUES
+            (#{fk_sup_id},#{fk_goods_id},#{sg_price},#{sg_date},#{sg_remark},1)
+    </insert>
+<!--     逻辑删除报价 -->
+    <update id="supplierGoodsDelAction" parameterType="integer">
+        UPDATE 
+            supplier_goods 
+        SET
+            sg_status=0
+        WHERE
+            sg_id=#{sg_id}
+        
+    </update>
+<!--     批量删除报价 -->
+    <update id="supplierGoodsMoreDelAction" parameterType="map">
+        UPDATE 
+            supplier_goods 
+        SET
+            sg_status=0
+        WHERE
+            sg_id   
+        IN
+        <foreach collection="sg_ids" close=")" open="(" item="sg_id" separator=",">
+            #{sg_id}
+        </foreach>
+        
+    </update>
+  </mapper>

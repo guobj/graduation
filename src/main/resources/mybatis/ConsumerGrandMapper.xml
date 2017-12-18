@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.gbj.mapper.ConsumerGrandMapper">
+    <resultMap type="com.gbj.model.ConsumerGrand" id="ConsumerGrandBaseResultMap">
+        <id column="cg_id" property="cg_id"/>
+        <result column="cg_name" property="cg_name"/>
+    </resultMap>
+    <select id="load" parameterType="integer" resultMap="ConsumerGrandBaseResultMap">
+        SELECT * FROM consumer_grand WHERE cg_id=#{cg_id}
+    </select>
+    <select id="consumerGrandList" resultType="com.gbj.model.ConsumerGrand">
+        SELECT 
+            * 
+        FROM 
+            consumer_grand
+        WHERE
+            cg_status=1
+    </select>
+    <select id="consumerGrandPageList" parameterType="map" resultMap="ConsumerGrandBaseResultMap">
+        SELECT * FROM consumer_grand 
+        <where>
+            <if test="consumergrand.cg_name!=null and consumergrand.cg_name.trim()!=''">
+                AND cg_name LIKE concat("%",#{consumergrand.cg_name},"%")
+            </if>
+             AND cg_status=1
+        </where>
+        LIMIT #{record},4
+    </select>
+    <select id="count" parameterType="map" resultType="integer">
+         SELECT count(*) FROM consumer_grand 
+        <where>
+            <if test="consumergrand.cg_name!=null and consumergrand.cg_name.trim()!=''">
+                AND cg_name LIKE concat("%",#{consumergrand.cg_name},"%")
+            </if>
+            AND cg_status=1
+        </where>
+    </select>
+   <!--  逻辑删除 -->
+    <update id="consumerGrandDelAction" parameterType="integer">
+        UPDATE 
+            consumer_grand
+        SET
+            cg_status=0
+        WHERE
+            cg_id=#{cg_id}
+    </update>
+    <!-- 添加新等级 -->
+    <insert id="consumerGrandAddAction" parameterType="com.gbj.model.ConsumerGrand">
+        INSERT INTO 
+            consumer_grand(cg_name,cg_status) 
+        VALUES
+            (#{cg_name},1)
+    </insert>
+  </mapper>

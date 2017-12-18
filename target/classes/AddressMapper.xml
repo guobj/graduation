@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.gbj.mapper.AddressMapper">
+     <resultMap type="com.gbj.model.Province" id="ProvinceBaseResultMap"></resultMap>
+     <resultMap type="com.gbj.model.City" id="CityBaseResultMap"></resultMap>
+     <resultMap type="com.gbj.model.Country" id="CountryBaseResultMap"></resultMap>
+    <select id="loadProvince" parameterType="string" resultMap="ProvinceBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            hat_province 
+        WHERE 
+            provinceID=#{provinceID}
+    </select>
+    <select id="loadCity" parameterType="string" resultMap="CityBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            hat_city 
+        WHERE 
+            cityID=#{cityID}
+    </select>
+    <select id="loadCountry" parameterType="string" resultMap="CountryBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            hat_area 
+        WHERE 
+            areaID=#{areaID}
+    </select>
+    <!-- 省市区三级联动 -->
+    <select id="provinceList" resultMap="ProvinceBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            hat_province
+    </select>
+    <select id="cityList" parameterType="string" resultMap="CityBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            hat_city 
+        WHERE 
+            c_father=#{provinceID}
+    </select>
+    <select id="countryList" parameterType="string" resultMap="CountryBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            hat_area 
+        WHERE 
+            a_father=#{cityID}
+    </select>
+  </mapper>

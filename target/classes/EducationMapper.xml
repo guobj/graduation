@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.gbj.mapper.EducationMapper">
+    <resultMap type="com.gbj.model.Education" id="EducationBaseResultMap">
+        <id column="edu_id" property="edu_id"/>
+        <result column="edu_name" property="edu_name"/>
+    </resultMap>
+    <select id="load" parameterType="integer" resultMap="EducationBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            education 
+        WHERE 
+            edu_id=#{edu_id}
+    </select>
+    <select id="eduList" resultMap="EducationBaseResultMap">
+        SELECT 
+            * 
+        FROM 
+            education
+    </select>
+  </mapper>
