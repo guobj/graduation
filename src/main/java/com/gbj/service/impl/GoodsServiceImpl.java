@@ -1,10 +1,15 @@
 package com.gbj.service.impl;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gbj.mapper.GoodsMapper;
 import com.gbj.mapper.GoodsOutMapper;
@@ -12,6 +17,7 @@ import com.gbj.mapper.OrderMapper;
 import com.gbj.model.Goods;
 import com.gbj.model.GoodsOut;
 import com.gbj.service.GoodsService;
+import com.gbj.utils.ImportExcelUtil;
 @Service
 public class GoodsServiceImpl implements GoodsService {
 
@@ -21,6 +27,10 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsOutMapper goodsOutMapper;
     @Autowired
     private OrderMapper orderMapper;
+    
+    //文件导入的工具
+    ImportExcelUtil importExcel = new ImportExcelUtil();
+    
     @Override
     public Map<String , Object> goodsMap(Map<String , Object> map ) {
         // TODO Auto-generated method stub
@@ -163,6 +173,33 @@ public class GoodsServiceImpl implements GoodsService {
             throw new RuntimeException("出库失败");
         }
     }
-
+    //文件导出
+	@Override
+	public List<Goods> goodsExcel() {
+		// TODO Auto-generated method stub
+		List<Goods> goodsAllList = goodsMapper.findAllgoods();
+		return goodsAllList;
+		
+	}
+	@Override
+	public Map<String, Object> importGoodsExcel(Map<String, Object> resultMap,MultipartFile file, HttpServletRequest multipartRequest) throws IOException {
+		// TODO Auto-generated method stub
+//		List<Goods> goodsAllList = goodsMapper.findAllgoods();
+		//Map<String, Object> resultMap = new HashMap<String, Object>();
+         List<Goods> excelImportDataList=importExcel.getExcelInfo(file);
+         if (excelImportDataList.size()>0){
+             Integer result = goodsMapper.goodsMoreAdd(excelImportDataList);
+             if (result > 0){
+            	 resultMap.put("message", "信息导入成功");
+                return resultMap;
+             }else{
+            	 resultMap.put("message", "信息导入失败");
+                 return resultMap;
+             }
+         }else{
+        	 resultMap.put("message", "传入的文件没有数据");
+             return resultMap;
+         }
+	}
     
 }

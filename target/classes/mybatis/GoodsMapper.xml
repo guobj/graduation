@@ -147,4 +147,14 @@
         </set>
         WHERE goods_id=#{goods_id}
     </update>
+<!--     多条添加 -->
+	 <insert id="goodsMoreAdd">
+        INSERT INTO 
+            goods(goods_name,fk_gt_id,goods_price,goods_vipprice,fk_sup_id,goods_logo,fk_gu_id) 
+        VALUES
+	        <foreach collection="list" item="goods" separator=",">
+	           (#{goods.goods_name},#{goods.fk_gt_id},#{goods.goods_price},#{goods.goods_vipprice},#{goods.fk_sup_id},#{goods.goods_logo},#{goods.fk_gu_id})
+	       </foreach>
+            
+    </insert>
 </mapper>

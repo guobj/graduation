@@ -1,7 +1,12 @@
 package com.gbj.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gbj.model.Goods;
 
@@ -20,4 +25,9 @@ public interface GoodsService {
     public List<Goods> stocking(Map<String , Object> map);
     //确认出库 即修改出库单状态及添加出库时间
     public int confirmGoodsOut(Map<String , Object> map);
+    
+    //文件导出
+    public List<Goods> goodsExcel();
+    //文件导入
+    public Map<String, Object> importGoodsExcel(Map<String, Object> resultMap,MultipartFile file, HttpServletRequest multipartRequest) throws IOException;
 }

@@ -90,7 +90,6 @@
         }
         
     } -->
-    </script>
     <script type="text/javascript">
         function goodsMoreDel(){
         	var goods_ids = new Array();
@@ -114,6 +113,24 @@
            }
         }
     </script>
+    <script type="text/javascript">
+        function goodsExcel(){
+        	window.location.href="goodsExcel";
+        }
+    </script>
+     <script type="text/javascript">
+        function goodsImportExcelDialog(){
+        	var delDialog = top.dialog({
+                title:'选择导入文件',
+                url:'goodsImportExcelDialog',
+                width:'500px',
+                onclose:function (){
+                	window.location.href="goodsList";
+                }
+            });
+            delDialog.showModal();
+        }
+    </script>
 </head>
 
 <body class="gray-bg">
@@ -122,9 +139,12 @@
             <!-- <div class="col-sm-6"> -->
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5><button style="width: 50px" type="button" class="btn btn-outline btn-info" onclick="goodsAdd()">添加</button>
-                            <button type="button" class="btn btn-outline btn-danger" onclick="goodsMoreDel()">批量删除</button>
-                        </h5>
+	                        <h5>
+		                        <button style="width: 50px" type="button" class="btn btn-outline btn-info" onclick="goodsAdd()">添加</button>
+		                        <button type="button" class="btn btn-outline btn-danger" onclick="goodsMoreDel()">批量删除</button>
+	                        	<button style="width: 50px" type="button" class="btn btn-outline btn-info" onclick="goodsImportExcelDialog()">导入</button>
+		                        <button style="width: 50px" type="button" class="btn btn-outline btn-info" onclick="goodsExcel()">导出</button>
+	                        </h5>
                         <div class="ibox-tools">
                             <form action="goodsList" method="post" target="_self">
                                                              商品名称：<input type="text" name="goods_name" value="${goods.goods_name }" >
