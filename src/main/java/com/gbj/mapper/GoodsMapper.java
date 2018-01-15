@@ -9,6 +9,8 @@ public interface GoodsMapper {
     public List<Goods> goodsList(Map<String , Object> map);
     public int count(Map<String , Object> map);
     public int goodsAdd(Goods goods);
+    //多条添加
+    public int goodsMoreAdd(List<Goods> goodsList);
     public Goods load(Integer goods_id);
     public int goodsUpdate(Goods goods);
     public int goodsDel(Integer goods_id);

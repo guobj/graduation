@@ -1,7 +1,9 @@
 package com.gbj.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +24,9 @@ import com.gbj.service.GoodsService;
 import com.gbj.service.GoodsTypeService;
 import com.gbj.service.GoodsUnitService;
 import com.gbj.service.SupplierService;
+import com.gbj.utils.DownLoadExcel;
 import com.gbj.utils.FileUpload;
+import com.gbj.utils.FileUtil;
 import com.gbj.utils.PageBean;
 import com.gbj.utils.TimeDemo;
 import com.google.gson.Gson;
@@ -37,6 +41,7 @@ public class GoodsController {
     private GoodsUnitService goodsUnitService;
     @Autowired
     private SupplierService supplierService;
+    
     @RequestMapping("/goodsList")
     //商品查询ji分页
     public String goodsList(Map<String , Object> map,Goods goods,@RequestParam(required=false,defaultValue="1")Integer pages,HttpServletRequest request){
@@ -333,5 +338,43 @@ public class GoodsController {
             map.put("message" , e.getMessage());
         }
         return "main/message";
+    }
+    
+    //文件导出
+    @RequestMapping("/goodsExcel")
+    public void goodsExcel(HttpServletResponse response) throws IOException{
+    	List<Goods> goodsList = goodsService.goodsExcel();
+    	String fileName = "商品详细.xlsx";
+    	 String filePath = DownLoadExcel.goodsExcel(goodsList,fileName);
+         //下载公共方法
+         FileUtil.downloadFile(fileName,new File(filePath) ,response);
+    			
+    }
+    //文件导入
+    @RequestMapping("/goodsImportExcelDialog")
+    public String goodsImportExcelDialog() throws IOException{
+    	 return "main/importExcel";
+    			
+    }
+    //文件导入测试
+    @RequestMapping("/goodsImportExcel")
+    public String goodsImportExcel(Map<String, Object> resultMap,MultipartFile file, HttpServletRequest multipartRequest) throws IOException{
+    	 String filePath= FileUtil.getRootLocation()+ File.separator;
+         File group=new File(filePath+"importExcel");
+         if(!group.exists()){
+             group.mkdirs();
+         }
+         String filename = FileUtil.getNewFileName(filePath+"importExcel",file.getOriginalFilename());
+         File newFile=null;
+         try {
+             newFile = FileUtil.getFile(file.getInputStream(), group.getAbsolutePath() + File.separator + filename);
+         } catch (IOException e) {
+             newFile=null;
+         }
+         if (file != null) {
+        	 resultMap = goodsService.importGoodsExcel(resultMap,file,multipartRequest);
+         }
+         System.out.println(resultMap.get("message"));
+		return "main/message";
     }
 }

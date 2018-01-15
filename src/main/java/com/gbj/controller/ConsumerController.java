@@ -23,7 +23,7 @@ public class ConsumerController {
     @Autowired
     private ConsumerService consumerService;
     @RequestMapping("/consumerList")
-    //客户基本信息查询ji分页
+    //客户基本信息查询及分页
     public String consumerList(Map<String , Object> map,Consumer consumer,@RequestParam(required=false,defaultValue="1")Integer pages,HttpServletRequest request){
         map = PageBean.serverMap(map , consumer , pages);
         map = consumerService.consumerList(map);

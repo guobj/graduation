@@ -77,5 +77,7 @@ public class TestController {
 	 		System.out.println(ip);
 	 		return "test/index";
 	 		}
-	 		//测试
+
+
+
 }

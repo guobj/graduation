@@ -29,7 +29,7 @@
     </script>
     <script language="javascript">
             function loadimage(){
-            document.getElementById("randImage").src="validate";
+            document.getElementById("randImage").src="validate?"+Math.random();
         }
     </script>
 </head>

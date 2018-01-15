@@ -112,7 +112,7 @@
                             </thead>
                             <tbody>
                             <c:if test="${supplierLicenseList eq null }">
-                                <tr style="text-align: center;><td><font style="text-align: center;" color="red" size="4">${message }</font> </td></tr>
+                                <tr style="text-align: center;"><td><font style="text-align: center;" color="red" size="4">${message }</font> </td></tr>
                             </c:if>
                              <c:if test="${supplierLicenseList != null }">
                             <c:forEach items="${supplierLicenseList }" var="supplierLicense">
