@@ -21,6 +21,7 @@ import com.gbj.model.SaleModel;
 import com.gbj.service.ConsumerService;
 @Service
 public class ConsumerServiceImpl implements ConsumerService {
+
     @Autowired
     private ConsumerMapper consumerMapper;
     @Autowired
