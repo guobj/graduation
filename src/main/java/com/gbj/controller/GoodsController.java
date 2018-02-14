@@ -1,21 +1,5 @@
 package com.gbj.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.gbj.model.Goods;
 import com.gbj.model.GoodsOut;
 import com.gbj.model.GoodsType;
@@ -24,12 +8,21 @@ import com.gbj.service.GoodsService;
 import com.gbj.service.GoodsTypeService;
 import com.gbj.service.GoodsUnitService;
 import com.gbj.service.SupplierService;
-import com.gbj.utils.DownLoadExcel;
-import com.gbj.utils.FileUpload;
-import com.gbj.utils.FileUtil;
-import com.gbj.utils.PageBean;
-import com.gbj.utils.TimeDemo;
+import com.gbj.utils.*;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class GoodsController {
@@ -377,4 +370,5 @@ public class GoodsController {
          System.out.println(resultMap.get("message"));
 		return "main/message";
     }
+
 }
