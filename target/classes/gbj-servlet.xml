@@ -35,6 +35,7 @@
         <mvc:exclude-mapping path="/js/**"/>
         <mvc:exclude-mapping path="/img/**"/>
         <mvc:exclude-mapping path="/validate"/>
+        <mvc:exclude-mapping path="/ueditor"/>
         <mvc:exclude-mapping path="/result"/>
         <bean id="sessionInterceptor" class="com.gbj.interceptor.SessionInterceptor"></bean>
     </mvc:interceptor>

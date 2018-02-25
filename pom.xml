@@ -255,6 +255,19 @@
            <version>3.0.1</version>
            <scope>provided</scope>
        </dependency>
+      <!-- https://mvnrepository.com/artifact/org.json/json -->
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20160810</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/cn.meddb/ueditor -->
+      <dependency>
+          <groupId>cn.meddb</groupId>
+          <artifactId>ueditor</artifactId>
+          <version>20180110</version>
+      </dependency>
+
   </dependencies>
   <build>
     <finalName>graduation_project</finalName>

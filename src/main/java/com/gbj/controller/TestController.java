@@ -1,4 +1,4 @@
-package com.gbj.test;
+package com.gbj.controller;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -30,8 +30,21 @@ public class TestController {
 	         }  
 	         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
 	             ip = request.getHeader("WL-Proxy-Client-IP");  
-	         }  
-	         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+	         }
+			if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+				ip = request.getRemoteAddr();
+				if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1")){
+					//根据网卡取本机配置的IP
+					InetAddress inet=null;
+					try {
+						inet = InetAddress.getLocalHost();
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					}
+					ip= inet.getHostAddress();
+				}
+			}
+			/*if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 	             ip = request.getHeader("HTTP_CLIENT_IP");  
 	         }  
 	         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
@@ -39,11 +52,11 @@ public class TestController {
 	         }  
 	         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
 	             ip = request.getRemoteAddr();  
-	         }  
+	         }*/
 	 		//String ip = request.getRemoteAddr();
 	 		RestTemplate restTemplate = new RestTemplate();
 	 		StringBuilder url = new StringBuilder("http://api.map.baidu.com/location/ip?ip=");
-	 		url.append("123.103.9.7");
+	 		url.append(ip);
 	 		url.append("&ak=9KxefSDZBHk9bLd8EStr5mqCMeVvtpf5&coor=bd09ll");
 	 		String getResult = restTemplate.getForObject(url.toString(),String.class);
 	 		JsonObject urlReturnData = new JsonParser().parse(getResult).getAsJsonObject();
@@ -75,6 +88,10 @@ public class TestController {
 	 		return "test/index";
 	 		}
 
+	@RequestMapping("/ueditor")
+	public String ueditor(){
+	 		return "test/demo";
+	}
 //ceas
 	//
 
