@@ -1,25 +1,21 @@
 package com.gbj.controller;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Map;
-import java.util.Random;
+import com.gbj.model.Employee;
+import com.gbj.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.gbj.model.Employee;
-import com.gbj.service.EmployeeService;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Map;
+import java.util.Random;
 
 @Controller
 public class LoginController {
@@ -28,7 +24,7 @@ public class LoginController {
     //登录操作
     @RequestMapping("/login")
     public String login(){
-        return "login/login";
+        return "login/login2";
     }
     @RequestMapping("/loginDo")
     public String loginDo(Employee employee,Map<String , Object> map,HttpServletRequest request){
@@ -43,7 +39,7 @@ public class LoginController {
             e.printStackTrace();            // TODO: handle exception
             map.put("message" , e.getMessage());
             //map.put("message" , e.getMessage());
-            return "login/login";
+            return "login/login2";
         }
     }
     //安全退出  销毁session
@@ -56,7 +52,7 @@ public class LoginController {
         return "login/login";
     }
     //进入index页
-    @RequestMapping("/index.jsp")
+    @RequestMapping("/index")
     public String index(){
         return "main/index";
     }

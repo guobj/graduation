@@ -45,6 +45,16 @@
                 border-width: 2px;
             }
     </style>
+        <%--<script type="text/javascript">--%>
+            <%--$(function () {--%>
+                <%--$("#indexjsp").click(--%>
+                    <%--function () {--%>
+                       <%--$("#testindex").attr("src","index");--%>
+                    <%--}--%>
+                <%--)--%>
+
+            <%--})--%>
+        <%--</script>--%>
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
@@ -143,7 +153,7 @@
                 </button>
                 <nav class="page-tabs J_menuTabs">
                     <div class="page-tabs-content">
-                        <a href="javascript:void(0)" class="active J_menuTab" data-id="index.jsp">首页</a>
+                        <a href="javascript:;" class="active J_menuTab" data-id="index">首页</a>
                     </div>
                 </nav>
                 <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
@@ -165,7 +175,8 @@
                 <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="index.jsp?v=4.0" frameborder="0" data-id="index_v2.html" seamless></iframe>
+                <iframe id="testindex" class="J_iframe" name="iframe0" width="100%" height="100%" src="index" frameborder="0" data-id="index_v2.html" seamless></iframe>
+                <%--<jsp:include page="../main/index.jsp"></jsp:include>--%>
             </div>
         </div>
         <!--右侧部分结束-->
