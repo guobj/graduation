@@ -28,4 +28,5 @@ proguard/
 *.ipr
 *.iws
 .idea/
+target/
 /target/
