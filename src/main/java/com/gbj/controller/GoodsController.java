@@ -38,9 +38,14 @@ public class GoodsController {
     @RequestMapping("/goodsList")
     //商品查询ji分页
     public String goodsList(Map<String , Object> map,Goods goods,@RequestParam(required=false,defaultValue="1")Integer pages,HttpServletRequest request){
-        map = PageBean.serverMap(map , goods , pages);
-        map = goodsService.goodsMap(map);
-        map = PageBean.clientMap(map , pages , request);
+        try {
+            map = PageBean.serverMap(map , goods , pages);
+            map = goodsService.goodsMap(map);
+            map = PageBean.clientMap(map , pages , request);
+
+        }catch(Exception e) {
+            map.put("message", e.getMessage());
+        }
         return "goods/goodsList";
     }
     @RequestMapping("/goodsAdd")
@@ -124,15 +129,20 @@ public class GoodsController {
     }*/
     //通过map进行的批量删除，商品ID存到数组中去
     @RequestMapping("/goodsMoreDel")
-    public String goodsMoreDel(Map<String , Object> map,Integer[] goods_ids){
+    public void goodsMoreDel(HttpServletResponse response,Map<String , Object> map,Integer[] goods_ids){
         try{
             map.put("goods_ids" , goods_ids);
-            goodsService.goodsMoreDel(map);
+            int data = goodsService.goodsMoreDel(map);
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.print(data);
+            out.flush();
+            out.close();
         }catch(Exception e){
             // TODO: handle exception
             map.put("message" , e.getMessage());
         }
-        return "main/message";
+//        return null;
     }
     //模糊查询及分页商品类型
     @RequestMapping("/goodsType")

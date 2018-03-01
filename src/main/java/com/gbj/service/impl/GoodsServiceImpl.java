@@ -42,6 +42,7 @@ public class GoodsServiceImpl implements GoodsService {
             //System.out.println(goodsList);
             return  map;
         }else{
+//            map.put("goodsList" , null);
             throw new RuntimeException("没有数据");
         }
     }

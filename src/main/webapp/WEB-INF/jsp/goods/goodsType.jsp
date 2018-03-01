@@ -28,6 +28,8 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function goodsTypeAdd() {
             var addDialog = top.dialog({
@@ -42,7 +44,7 @@
             addDialog.showModal();
         }
     </script>
-    <script type="text/javascript">
+   <%-- <script type="text/javascript">
         function del(id){
             var delDialog = top.dialog({
                 title:'删除商品',
@@ -54,6 +56,34 @@
             });
             delDialog.showModal();
         }
+    </script>--%>
+    <script type="text/javascript">
+        function del(id) {
+            swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this imaginary file!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "删除！",
+                    closeOnConfirm: false
+                },
+                function(isConfirm){
+                    if (isConfirm){
+                        swal("Deleted!", "Your imaginary file has been deleted!", "success");
+                    } else {
+                        swal("Cancelled", "Your imaginary file is safe :)", "error");
+                    }
+                });
+        }
+        /*$(function () {
+            $("#test").click(function(){
+
+                }
+            );
+        });*/
+
+
     </script>
 </head>
 
@@ -89,6 +119,7 @@
                                     <td>${goodstype.gt_type }</td>
                                     <td>
                                         <button type="button" class="btn btn-outline btn-danger" onclick="del(${goodstype.gt_id })">删除</button>
+                                        <button type="button" id="test" class="btn btn-outline btn-danger">删除</button>
                                     </td>
                                     
                                 </tr>

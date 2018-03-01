@@ -5,7 +5,7 @@
     pageContext.setAttribute("path", path);
     pageContext.setAttribute("basePath", basePath);
 %>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  <!DOCTYPE html>
 <html>
 
@@ -28,6 +28,8 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function goodsAdd() {
 			var addDialog = top.dialog({
@@ -56,6 +58,31 @@
 		}
     </script>
     <script type="text/javascript">
+       /* function del(id) {
+            swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this imaginary file!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "删除！",
+                    closeOnConfirm: false
+                },
+                function(isConfirm){
+                    if (isConfirm){
+                        swal({title:"删除成功！",
+                            text:"",
+                            type:"success"},
+                            function(){
+
+                        })
+                    } else {
+                        swal({title:"已取消",
+                            text:"",
+                            type:"error"})
+                    }
+                });
+        }*/
         function del(id){
         	var delDialog = top.dialog({
                 title:'删除商品',
@@ -68,6 +95,7 @@
             delDialog.showModal();
         }
     </script>
+
     <!-- <script type="text/javascript">
     function delMore(){
     	var goods_ids = new Array();
@@ -98,9 +126,58 @@
             goods_ids.push($(this).val());
             });
     	   if(goods_ids.length<=0){
-               alert("请选择要删除的数据！");
+               swal({
+                   title: '请选择要要删除的数据！',
+                   text: '2秒后自动关闭。',
+                   timer: 2000
+               }).then(
+                   function () {},
+                   // handling the promise rejection
+                   function (dismiss) {
+                       if (dismiss === 'timer') {
+                           console.log('I was closed by the timer')
+                       }
+                   }
+               )
            }else{
-                var delDialog = top.dialog({
+               swal({
+                       title: "Are you sure?",
+                       text: "You will not be able to recover this imaginary file!",
+                       type: "warning",
+                       showCancelButton: true,
+                       confirmButtonColor: "#DD6B55",
+                       confirmButtonText: "删除",
+                       closeOnConfirm: false
+                   },
+                   function(){
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: "goodsMoreDel",
+                                dataType:"TEXT",
+                                traditional: true,
+                                data: {"goods_ids": goods_ids},
+                                success:function (data) {
+                                    swal("操作成功!", "已成功删除数据！", "success");
+                                    window.location.href="goodsList";
+                                },
+                                error:function (data) {
+                                    swal("OMG", "删除操作失败了!", "error");
+                                    window.location.href="goodsList";
+                                }
+                            }
+                        )
+                            /*.done(
+                            function (data) {
+
+                            }
+                        ).error(
+                            function (data) {
+                                swal("OMG", "删除操作失败了!", "error");
+                            }
+                        )*/
+                   });
+               /* var delDialog = top.dialog({
                     title:'删除商品',
                     url:'goodsMoreDel?goods_ids='+goods_ids,
                     width:'500px',
@@ -109,7 +186,7 @@
                     	window.location.href="goodsList";
                     }
                 });
-                delDialog.showModal();
+                delDialog.showModal();*/
            }
         }
     </script>
@@ -170,6 +247,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <c:if test="${goodsList eq null}">
+                                <tr><td colspan="9"  style="text-align: center;"><font color="red" size="4">${message }</font> </td></tr>
+                            </c:if>
+                            <c:if test="${goodsList != null}">
                             <c:forEach items="${goodsList }" var="goods">
                                 <tr>
                                     <td><input id="goods_ids" name="goods_id" type="checkbox" value="${goods.goods_id }"></td>
@@ -186,7 +267,8 @@
                                     </td>
                                     
                                 </tr>
-                            </c:forEach> 
+                            </c:forEach>
+                            </c:if>
                             </tbody>
                         </table>
                         <jsp:include page="../main/pages.jsp"></jsp:include>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
@@ -10,9 +11,11 @@
         }
     </script>
 <div class="row">
-    <div class="col-sm-6">
-        <div class="dataTables_info" id="DataTables_Table_0_info" role="alert" aria-live="polite" aria-relevant="all">当前第<font color="red">${pages }</font>页，共 <font color="red">${sumPage }</font>页</div>
-    </div>
+    <c:if test="${pages != null}">
+        <div class="col-sm-6">
+            <div class="dataTables_info" id="DataTables_Table_0_info" role="alert" aria-live="polite" aria-relevant="all">当前第<font color="red">${pages }</font>页，共 <font color="red">${sumPage }</font>页</div>
+        </div>
+    </c:if>
     <form target="_self" id="pageForm">
         <input type="hidden" id="pages" name="pages">
         <c:if test="${goods.goods_name!=null and goods.goods_name.trim()!='' }">
@@ -63,24 +66,26 @@
          <%-- <c:if test="${suppliergoods.supplier.sup_name!=null and suppliergoods.supplier.sup_name.trim()!=''}">
             <input type="hidden" id="supplier.sup_name" name="supplier.sup_name" value="${suppliergoods.supplier.sup_name }">
         </c:if> --%>
-        
-    <div class="col-sm-6">
-        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-            <ul class="pagination">
-                <li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" >
-                    <a onclick="jumpPage(1)" href="javascript:void(0);">首页</a>
-                </li>
-                <li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" >
-                    <a onclick="jumpPage(${(pages-1<1)?1:(pages-1)})" href="javascript:void(0);">上一页</a>
-                </li>
-                <li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" >
-                    <a onclick="jumpPage(${(pages+1>sumPage)?sumPage:(pages+1)})" href="javascript:void(0);">下一页</a>
-                </li>
-                <li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" >
-                    <a onclick="jumpPage(${sumPage})" href="javascript:void(0);">尾页</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+
+        <c:if test="${pages != null}">
+            <div class="col-sm-6">
+                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                    <ul class="pagination">
+                        <li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" >
+                            <a onclick="jumpPage(1)" href="javascript:void(0);">首页</a>
+                        </li>
+                        <li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" >
+                            <a onclick="jumpPage(${(pages-1<1)?1:(pages-1)})" href="javascript:void(0);">上一页</a>
+                        </li>
+                        <li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" >
+                            <a onclick="jumpPage(${(pages+1>sumPage)?sumPage:(pages+1)})" href="javascript:void(0);">下一页</a>
+                        </li>
+                        <li class="paginate_button next" aria-controls="DataTables_Table_0" tabindex="0" >
+                            <a onclick="jumpPage(${sumPage})" href="javascript:void(0);">尾页</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </c:if>
     </form>
 </div>
