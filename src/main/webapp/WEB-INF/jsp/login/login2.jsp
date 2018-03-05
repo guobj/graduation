@@ -31,6 +31,7 @@
 
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet"><base target="_blank">
+    <script type="text/javascript" src="js/jquery.js"></script>
     <!--[if lt IE 8]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
@@ -57,6 +58,18 @@
             text-align:center;
         }
     </style>
+    <script type="text/javascript">
+        $(function () {
+            $("#code").change(function () {
+                var code = $("#code").val();
+                if(code == ${sessionScope.rand}){
+                    $("#code").html("√");
+                }else{
+                    $("#code").html("√");
+                }
+            })
+        })
+    </script>
 </head>
 
 <body class="gray-bg">
@@ -70,7 +83,7 @@
         </div>
         <h3>欢迎使用</h3>
 
-        <form class="m-t" method="post" action="loginDo">
+        <form class="m-t" target="_self" method="post" action="loginDo">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="用户名" name="account" required="">
             </div>
@@ -78,10 +91,10 @@
                 <input type="password" class="form-control" placeholder="密码" name="password" required="">
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="验证码" name="code" required="">
+                <input id="code" type="text" class="form-control" placeholder="验证码" name="code" required="">
             </div>
             <img id="randImage" width="80px" src="validate" align="absmiddle" style="position:relative;top:-2px;"/> <a href="javascript:loadimage();" style="color:#999;">看不清，换一张</a>
-            <font color="red">${message }</font>
+            <br><font color="red">${message }</font>
             <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
 
 

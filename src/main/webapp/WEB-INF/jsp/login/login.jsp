@@ -24,6 +24,7 @@
     <!--[if lt IE 8]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
+    <script type="text/javascript" src="js/jquery.js"></script>
     <script>
         if(window.top!==window.self){window.top.location=window.location};
     </script>
@@ -31,6 +32,30 @@
             function loadimage(){
             document.getElementById("randImage").src="validate?"+Math.random();
         }
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#submit").click(function () {
+                var account = $("#account").val();
+                var password = $("#password").val();
+                var code = $("#code").val();
+                $.ajax({
+                    type: "post",
+                    url: "loginDo",
+                    dataType:"json",
+                    traditional: true,
+                    data: {"account": account,"password":password,"code":code},
+                    success:function (data) {
+                        swal("登录成功!", "请尽情使用！", "success");
+                        window.location.href="goodsList";
+                    },
+                    error:function (data) {
+                        swal("登录失败", "请重新登陆!", "error");
+                        window.location.href="goodsList";
+                    }
+                });
+            });
+        });
     </script>
 </head>
 
@@ -58,12 +83,12 @@
                 <form method="post" action="loginDo">
                     <h4 class="no-margins">登录：</h4>
                     <p class="m-t-md">登录到FireFly后台主题UI框架</p>
-                    <input type="text" class="form-control uname" placeholder="用户名" name="account" />
-                    <input type="password" class="form-control pword m-b" placeholder="密码" name="password" />
-                    <input type="text" class="form-control pword m-b" placeholder="验证码" name="code" />
+                    <input id="account" type="text" class="form-control uname" placeholder="用户名" name="account" />
+                    <input id="password" type="password" class="form-control pword m-b" placeholder="密码" name="password" />
+                    <input id="code" type="text" class="form-control pword m-b" placeholder="验证码" name="code" />
                     <img id="randImage" width="80px" src="validate" align="absmiddle" style="position:relative;top:-2px;"/> <a href="javascript:loadimage();" style="color:#999;">看不清，换一张</a>
                     <font color="red">${message }</font>
-                    <button type="submit" class="btn btn-success btn-block">登录</button>
+                    <button type="button" onclick="" id="submit" class="btn btn-success btn-block">登录</button>
                 </form>
                 
             </div>

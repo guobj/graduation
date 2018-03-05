@@ -27,16 +27,21 @@ public class LoginController {
         return "login/login2";
     }
     @RequestMapping("/loginDo")
-    public String loginDo(Employee employee,Map<String , Object> map,HttpServletRequest request){
+    public String loginDo(Employee employee,String code,Map<String , Object> map,HttpServletRequest request){
         map.put("employee" , employee);
         try{
             map = employeeService.login(map);
             HttpSession session = request.getSession();
             session.setAttribute("employee",map.get("employee"));
+            String rand = session.getAttribute("rand").toString();
+            if(!code.equals(rand)){
+                map.put("message","验证码错误！请重试。");
+                return "login/login2";
+            }
             System.out.println(map.get("employee"));
             return "main/main";
         }catch(Exception e){
-            e.printStackTrace();            // TODO: handle exception
+//            e.printStackTrace();            // TODO: handle exception
             map.put("message" , e.getMessage());
             //map.put("message" , e.getMessage());
             return "login/login2";
