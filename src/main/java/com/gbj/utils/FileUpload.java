@@ -1,11 +1,11 @@
 package com.gbj.utils;
 
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
-
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 public class FileUpload {
     public static String fileUpload(MultipartFile file) throws IllegalStateException, IOException{

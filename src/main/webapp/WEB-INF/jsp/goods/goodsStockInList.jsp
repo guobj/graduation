@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
 
-    <title>H+ 后台主题UI框架 - 基础表格</title>
+    <title>库存</title>
     <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
 
@@ -86,6 +86,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <c:if test="${goodsStockList eq null}">
+                                <tr><td colspan="9"  style="text-align: center;"><font color="red" size="4">${message }</font> </td></tr>
+                            </c:if>
+                            <c:if test="${goodsStockList != null}">
                             <c:forEach items="${goodsStockList }" var="goodsStock">
                                 <tr>
                                     <td><input name="goods_id" type="checkbox" value="${goodsStock.goods_id }"></td>
@@ -95,7 +99,8 @@
                                     <td>${goodsStock.goods_sumprice }</td>
                                     <td>${goodsStock.goods_time }</td>
                                 </tr>
-                            </c:forEach> 
+                            </c:forEach>
+                            </c:if>
                             </tbody>
                         </table>
                         <jsp:include page="../main/pages.jsp"></jsp:include>

@@ -15,8 +15,8 @@ public interface GoodsService {
     public int goodsAddAction(Map<String , Object> map);
     public Map<String , Object> load(Map<String , Object> map,Integer goods_id);
     public int goodsUpdateAction(Map<String , Object> map);
-    public int goodsDel(Map<String,Object> map,Integer goods_id);
-    public int goodsMoreDel(Map<String , Object> map);
+    public Goods goodsDel(Map<String,Object> map,Integer goods_id);
+    public List<Goods> goodsMoreDel(Integer[] goods_ids);
     public Map<String , Object> goodsStockList(Map<String , Object> map);
     public int goodsStockInUpdate(Map<String , Object> map);
     public int goodsStockInUpdateAction(Map<String , Object> map);

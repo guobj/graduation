@@ -79,27 +79,28 @@ public class GoodsServiceImpl implements GoodsService {
         return result;
     }
     @Override
-    public int goodsDel(Map<String,Object> map, Integer goods_id ) {
+    public Goods goodsDel(Map<String,Object> map, Integer goods_id ) {
         // TODO Auto-generated method stub
+        Goods good = goodsMapper.load(goods_id);
         int result = goodsMapper.goodsDel(goods_id);
         if(result>0){
             map.put("message" , "删除成功");
+            return good;
         }else{
             map.put("message" , "删除失败");
         }
-        return result;
+        return null;
     }
     @Override
-    public int goodsMoreDel(Map<String , Object> map ) {
+    public List<Goods> goodsMoreDel(Integer[] goods_ids) {
         // TODO Auto-generated method stub
         //        Integer[] goods_ids = (Integer[]) map.get("goods_ids");
-        int result = goodsMapper.goodsMoreDel(map);
+        List<Goods> goodsList = goodsMapper.queryDelList(goods_ids);
+        int result = goodsMapper.goodsMoreDel(goods_ids);
         if(result>0){
-            map.put("message" , "删除成功");
-        }else{
-            map.put("message" , "删除失败");
+            return goodsList;
         }
-        return result;
+        return null;
     }
     //库存列表
     @Override

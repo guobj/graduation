@@ -15,6 +15,17 @@ public class Goods {
     private GoodsUnit gu;
     private GoodsType gtype;
     private Supplier supplier;
+    //删除状态  0有效  1删除
+    private Integer goods_state;
+
+    public Integer getGoods_state() {
+        return goods_state;
+    }
+
+    public void setGoods_state(Integer goods_state) {
+        this.goods_state = goods_state;
+    }
+
     public Supplier getSupplier() {
         return this.supplier;
     }

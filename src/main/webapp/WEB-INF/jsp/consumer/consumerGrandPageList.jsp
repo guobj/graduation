@@ -83,6 +83,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <c:if test="${consumerGrandPageList eq null}">
+                                <tr><td colspan="9"  style="text-align: center;"><font color="red" size="4">${message }</font> </td></tr>
+                            </c:if>
+                            <c:if test="${consumerGrandPageList != null}">
                             <c:forEach items="${consumerGrandPageList }" var="consumerGrandPage">
                                 <tr>
                                     <td><input name="cg_id" type="checkbox" value="${consumerGrandPage.cg_id }"></td>
@@ -92,7 +96,8 @@
                                     </td>
                                     
                                 </tr>
-                            </c:forEach> 
+                            </c:forEach>
+                            </c:if>
                             </tbody>
                         </table>
                         <jsp:include page="../main/pages.jsp"></jsp:include>

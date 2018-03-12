@@ -12,8 +12,10 @@ import com.gbj.utils.*;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -109,40 +111,31 @@ public class GoodsController {
         map.put("url" , "goodsDel");
         return "main/del";
     }
-    //通过ID删除该商品的信息，，，物理删除
-    @RequestMapping("/goodsDel")
-    public String goodsDel(Map<String , Object> map, Integer id){
+
+    //单个删除
+    @RequestMapping(value = "/goodsDel",produces = "application/json",consumes = "application/json")
+    @ResponseBody
+    public JacksonData goodsDel(Map<String , Object> map,@RequestParam Integer id){
+        JacksonData data = new JacksonData();
         try{
-            map.put("goods_id" , id);
-            goodsService.goodsDel(map,id);
+//            map.put("goods_id" , id);
+            Goods good = goodsService.goodsDel(map,id);
+            data.success(good);
         }catch(Exception e){
             // TODO: handle exception
             map.put("message" , e.getMessage());
         }
-        return "main/message";
+        return data;
     }
-    //暂无作用的批量删除
-    /*@RequestMapping("/delMore")
-    public String delMore(Map<String , Object> map,Integer[] goods_ids){
-        map.put("goods_ids" , goods_ids);
-        return "main/delMore";
-    }*/
+
     //通过map进行的批量删除，商品ID存到数组中去
-    @RequestMapping("/goodsMoreDel")
-    public void goodsMoreDel(HttpServletResponse response,Map<String , Object> map,Integer[] goods_ids){
-        try{
-            map.put("goods_ids" , goods_ids);
-            int data = goodsService.goodsMoreDel(map);
-            response.setContentType("text/html;charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.print(data);
-            out.flush();
-            out.close();
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-//        return null;
+    @RequestMapping(value = "/goodsMoreDel")
+    @ResponseBody
+    public JacksonData goodsMoreDel(Integer[] ids){
+        JacksonData backData = new JacksonData();
+        List<Goods>  data = goodsService.goodsMoreDel(ids);
+        backData.success(data);
+        return backData;
     }
     //模糊查询及分页商品类型
     @RequestMapping("/goodsType")

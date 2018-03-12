@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
 
-    <title>H+ 后台主题UI框架 - 基础表格</title>
+    <title>商品维护</title>
     <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
     <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
 
@@ -30,6 +30,13 @@
     <script src="artDialog/dist/dialog-plus.js"></script>
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <%--<link href="https://cdn.bootcss.com/limonte-sweetalert2/7.15.0/sweetalert2.min.css" rel="stylesheet">--%>
+    <%--<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.15.0/sweetalert2.min.js"></script>--%>
+    <%--<link href="https://cdn.bootcss.com/limonte-sweetalert2/7.15.0/sweetalert2.css" rel="stylesheet">--%>
+    <%--<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.15.0/sweetalert2.js"></script>--%>
+    <%--<link href="https://cdn.bootcss.com/limonte-sweetalert2/6.10.0/sweetalert2.css" rel="stylesheet">--%>
+    <%--<script src="https://cdn.bootcss.com/limonte-sweetalert2/6.10.0/sweetalert2.js"></script>--%>
+    <script type="text/javascript" src="js/jsutil.js"></script>
     <script type="text/javascript">
         function goodsAdd() {
 			var addDialog = top.dialog({
@@ -57,44 +64,6 @@
 			updateDialog.showModal();
 		}
     </script>
-    <script type="text/javascript">
-       /* function del(id) {
-            swal({
-                    title: "Are you sure?",
-                    text: "You will not be able to recover this imaginary file!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "删除！",
-                    closeOnConfirm: false
-                },
-                function(isConfirm){
-                    if (isConfirm){
-                        swal({title:"删除成功！",
-                            text:"",
-                            type:"success"},
-                            function(){
-
-                        })
-                    } else {
-                        swal({title:"已取消",
-                            text:"",
-                            type:"error"})
-                    }
-                });
-        }*/
-        function del(id){
-        	var delDialog = top.dialog({
-                title:'删除商品',
-                url:'del?id='+id,
-                width:'500px',
-                onclose:function (){
-                	window.location.href="goodsList";
-                }
-            });
-            delDialog.showModal();
-        }
-    </script>
 
     <!-- <script type="text/javascript">
     function delMore(){
@@ -118,78 +87,6 @@
         }
         
     } -->
-    <script type="text/javascript">
-        function goodsMoreDel(){
-        	var goods_ids = new Array();
-    	   $("input[name='goods_id']:checked").each(function() {
-            //将选中数据存到数组里
-            goods_ids.push($(this).val());
-            });
-    	   if(goods_ids.length<=0){
-               swal({
-                   title: '请选择要要删除的数据！',
-                   text: '2秒后自动关闭。',
-                   timer: 2000
-               }).then(
-                   function () {},
-                   // handling the promise rejection
-                   function (dismiss) {
-                       if (dismiss === 'timer') {
-                           console.log('I was closed by the timer')
-                       }
-                   }
-               )
-           }else{
-               swal({
-                       title: "Are you sure?",
-                       text: "You will not be able to recover this imaginary file!",
-                       type: "warning",
-                       showCancelButton: true,
-                       confirmButtonColor: "#DD6B55",
-                       confirmButtonText: "删除",
-                       closeOnConfirm: false
-                   },
-                   function(){
-                        $.ajax(
-                            {
-                                type: "post",
-                                url: "goodsMoreDel",
-                                dataType:"TEXT",
-                                traditional: true,
-                                data: {"goods_ids": goods_ids},
-                                success:function (data) {
-                                    swal("操作成功!", "已成功删除数据！", "success");
-                                    window.location.href="goodsList";
-                                },
-                                error:function (data) {
-                                    swal("OMG", "删除操作失败了!", "error");
-                                    window.location.href="goodsList";
-                                }
-                            }
-                        )
-                            /*.done(
-                            function (data) {
-
-                            }
-                        ).error(
-                            function (data) {
-                                swal("OMG", "删除操作失败了!", "error");
-                            }
-                        )*/
-                   });
-               /* var delDialog = top.dialog({
-                    title:'删除商品',
-                    url:'goodsMoreDel?goods_ids='+goods_ids,
-                    width:'500px',
-                    onclose:function (){
-                       // self.location.reload();
-                    	window.location.href="goodsList";
-                    }
-                });
-                delDialog.showModal();*/
-           }
-        }
-    </script>
     <script type="text/javascript">
         function goodsExcel(){
         	window.location.href="goodsExcel";
@@ -218,7 +115,7 @@
                     <div class="ibox-title">
 	                        <h5>
 		                        <button style="width: 50px" type="button" class="btn btn-outline btn-info" onclick="goodsAdd()">添加</button>
-		                        <button type="button" class="btn btn-outline btn-danger" onclick="goodsMoreDel()">批量删除</button>
+		                        <button type="button" class="btn btn-outline btn-danger" onclick="delMore('goods_id','goodsMoreDel','goodsList')">批量删除</button>
 	                        	<button style="width: 50px" type="button" class="btn btn-outline btn-info" onclick="goodsImportExcelDialog()">导入</button>
 		                        <button style="width: 50px" type="button" class="btn btn-outline btn-info" onclick="goodsExcel()">导出</button>
 	                        </h5>
@@ -263,7 +160,7 @@
                                     <td>${goods.gu.gu_name }</td>
                                     <td>
                                         <button type="button" class="btn btn-outline btn-info" onclick="goodsUpdate(${goods.goods_id })">编辑</button>
-                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${goods.goods_id })">删除</button>
+                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${goods.goods_id },'goodsDel','goodsList')">删除</button>
                                     </td>
                                     
                                 </tr>
