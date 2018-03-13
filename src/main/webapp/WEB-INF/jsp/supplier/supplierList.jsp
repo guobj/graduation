@@ -28,6 +28,9 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/jsutil.js" type="text/javascript"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function supplierAdd() {
 			var addDialog = top.dialog({
@@ -55,65 +58,6 @@
 			updateDialog.showModal();
 		}
     </script>
-    <script type="text/javascript">
-        function del(id){
-        	var delDialog = top.dialog({
-                title:'删除供应商',
-                url:'supplierDel?id='+id,
-                width:'500px',
-                onclose:function (){
-                	window.location.href="supplierList";
-                }
-            });
-            delDialog.showModal();
-        }
-    </script>
-    <!-- <script type="text/javascript">
-    function delMore(){
-    	var goods_ids = new Array();
-        $("input[name='goods_id']:checked").each(function() {
-         //将选中数据存到数组里
-         goods_ids.push($(this).val());
-         });
-        if(goods_ids.length<=0){
-        	alert("请选择要删除的数据！");
-        }else{
-        	var delMoreDialog = top.dialog({
-                title:'删除商品',
-                url:'delMore?goods_ids='+goods_ids,
-                width:'500px',
-                onclose:function (){
-                    window.location.reload();
-                }
-            });
-            delMoreDialog.showModal();
-        }
-        
-    } -->
-    </script>
-    <script type="text/javascript">
-        function supplierMoreDel(){
-        	var sup_ids = new Array();
-    	   $("input[name='sup_id']:checked").each(function() {
-            //将选中数据存到数组里
-            sup_ids.push($(this).val());
-            });
-    	   if(sup_ids.length<=0){
-               alert("请选择要删除的数据！");
-           }else{
-                var delDialog = top.dialog({
-                    title:'删除商品',
-                    url:'supplierMoreDel.action?sup_ids='+sup_ids,
-                    width:'500px',
-                    onclose:function (){
-                       // self.location.reload();
-                    	window.location.href="supplierList";
-                    }
-                });
-                delDialog.showModal();
-           }
-        }
-    </script>
 </head>
 
 <body class="gray-bg">
@@ -123,7 +67,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5><button style="width: 50px" type="button" class="btn btn-outline btn-info" onclick="supplierAdd()">添加</button>
-                            <button type="button" class="btn btn-outline btn-danger" onclick="supplierMoreDel()">批量删除</button>
+                            <button type="button" class="btn btn-outline btn-danger" onclick="delMore('sup_id','supplierMoreDel','supplierList')">批量删除</button>
                         </h5>
                         <div class="ibox-tools">
                             <form action="supplierList" method="post" target="_self">
@@ -155,7 +99,7 @@
                             </thead>
                             <tbody>
                             <c:if test="${supplierList eq null }">
-                                <tr style="text-align: center;"><td><font style="text-align: center;" color="red" size="4">${message }</font> </td></tr>
+                                <tr style="text-align: center;"><td  colspan="9"><font style="text-align: center;" color="red" size="4">${message }</font> </td></tr>
                             </c:if>
                              <c:if test="${supplierList != null }">
                             <c:forEach items="${supplierList }" var="supplier">
@@ -174,7 +118,7 @@
                                     <td>${supplier.sup_time }</td>
                                     <td>
                                         <button type="button" class="btn btn-outline btn-info" onclick="supplierUpdate(${supplier.sup_id })">编辑</button>
-                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${supplier.sup_id } )">删除</button>
+                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${supplier.sup_id },'supplierDel','supplierList' )">删除</button>
                                     </td>
                                     
                                 </tr>

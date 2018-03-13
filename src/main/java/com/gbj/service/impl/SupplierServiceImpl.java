@@ -108,24 +108,24 @@ public class SupplierServiceImpl implements SupplierService {
     }
     //逻辑删除一条数据ByID
     @Override
-    public int supplierDelAction(Map<String , Object> map , Integer sup_id ) {
+    public Supplier supplierDelAction(Integer sup_id ) {
         // TODO Auto-generated method stub
+        Supplier supplier = supplierMapper.load(sup_id);
         int result = supplierMapper.supplierDelAction(sup_id);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return supplier;
         }else{
             throw new RuntimeException("删除失败");
         }
     }
     //逻辑删除多条数据ByIDs
     @Override
-    public int supplierMoreDelAction(Map<String , Object> map ) {
+    public List<Supplier> supplierMoreDelAction(Integer[] sup_ids ) {
         // TODO Auto-generated method stub
-        int result = supplierMapper.supplierMoreDelAction(map);
+        List<Supplier> supplierList = supplierMapper.supList();
+        int result = supplierMapper.supplierMoreDelAction(sup_ids);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return supplierList;
         }else{
             throw new RuntimeException("删除失败");
         }
@@ -218,7 +218,6 @@ public class SupplierServiceImpl implements SupplierService {
      * */
     @Override
     public Map<String , Object> supplierLicenseList(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
         List<Map<String , Object>> supplierLicenseList = supplierLicenseTypeMapper.supplierLicenseList(map);
         int count = supplierLicenseTypeMapper.count(map);
         if(supplierLicenseList!=null&&supplierLicenseList.size()>0){
@@ -233,7 +232,6 @@ public class SupplierServiceImpl implements SupplierService {
     //查询下拉列表的相关内容
     @Override
     public Map<String , Object> supplierLicenseAdd(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
         List<LicenseType> supplierLicenseList = licenseTypeMapper.finAllLicense();
         List<Supplier> supplierList = supplierMapper.supList();
         map.put("supplierLicenseList" , supplierLicenseList);
@@ -243,7 +241,6 @@ public class SupplierServiceImpl implements SupplierService {
     //新增证照
     @Override
     public Map<String , Object> supplierLicenseAddAction(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
         SupplierLicenseType supplierLicenseType = (SupplierLicenseType) map.get("supplierLicenseType");
         int result = supplierLicenseTypeMapper.supplierLicenseAddAction(supplierLicenseType);
         if(result>0){
@@ -256,24 +253,22 @@ public class SupplierServiceImpl implements SupplierService {
     }
     //逻辑删除一条数据ById
     @Override
-    public int supplierLicenseDelAction(Map<String , Object> map , Integer st_id ) {
-        // TODO Auto-generated method stub
+    public SupplierLicenseType supplierLicenseDelAction(Integer st_id ) {
+        SupplierLicenseType supplierLicenseType = supplierLicenseTypeMapper.load(st_id);
         int result = supplierLicenseTypeMapper.supplierLicenseDelAction(st_id);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return supplierLicenseType;
         }else{
             throw new RuntimeException("删除失败");
         }
     }
     //逻辑批量删除数据ByIds
     @Override
-    public int supplierLicenseMoreDelAction(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
-        int result = supplierLicenseTypeMapper.supplierLicenseMoreDelAction(map);
+    public List supplierLicenseMoreDelAction(Integer[] st_ids ) {
+        int result = supplierLicenseTypeMapper.supplierLicenseMoreDelAction(st_ids);
+        List allList = supplierLicenseTypeMapper.findAll();
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return allList;
         }else{
             throw new RuntimeException("删除失败");
         }

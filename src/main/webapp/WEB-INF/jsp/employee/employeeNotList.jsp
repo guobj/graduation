@@ -28,6 +28,9 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/jsutil.js" type="text/javascript"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function employeeRec(emp_id) {
 			var updateDialog = top.dialog({
@@ -41,19 +44,19 @@
 			updateDialog.showModal();
 		}
     </script>
-    <script type="text/javascript">
-        function del(id){
-        	var delDialog = top.dialog({
-                title:'删除用户',
-                url:'employeeDel?id='+id,
-                width:'500px',
-                onclose:function (){
-                	window.location.href="empsList";
-                }
-            });
-            delDialog.showModal();
-        }
-    </script>
+    <%--<script type="text/javascript">--%>
+        <%--function del(id){--%>
+        	<%--var delDialog = top.dialog({--%>
+                <%--title:'删除用户',--%>
+                <%--url:'employeeDel?id='+id,--%>
+                <%--width:'500px',--%>
+                <%--onclose:function (){--%>
+                	<%--window.location.href="empsList";--%>
+                <%--}--%>
+            <%--});--%>
+            <%--delDialog.showModal();--%>
+        <%--}--%>
+    <%--</script>--%>
     <!-- <script type="text/javascript">
     function delMore(){
     	var goods_ids = new Array();
@@ -76,7 +79,7 @@
         }
         
     } -->
-    </script>
+<%--//    </script>--%>
     <script type="text/javascript">
         function employeeMoreDel(){
         	var emp_ids = new Array();
@@ -166,8 +169,8 @@
                                     <td>${employee.role.role_name }</td>
                                     <td>${employee.emp_time }</td>
                                     <td>
-                                        <button type="button" class="btn btn-outline btn-info" onclick="employeeRec(${employee.emp_id })">恢复</button>
-                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${employee.emp_id })">删除</button>
+                                        <button type="button" class="btn btn-outline btn-info" onclick="del(${employee.emp_id },'employeeRec','empsNotList')">恢复</button>
+                                        <%--<button type="button" class="btn btn-outline btn-danger" onclick="del(${employee.emp_id })">删除</button>--%>
                                     </td>
                                     
                                 </tr>

@@ -1,14 +1,17 @@
 package com.gbj.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gbj.utils.JacksonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gbj.model.Supplier;
@@ -81,36 +84,23 @@ public class SupplierController {
         }
         return "main/message";
     }
-    //弹出删除信息框
-    @RequestMapping("/supplierDel")
-    public String employeeDel(Map<String , Object> map, Integer id){
-        map.put("id" , id);
-        map.put("url" , "supplierDel.action");
-        return "main/del";
-    }
     //通过ID删除该用户的信息，，，逻辑删除
-    @RequestMapping("/supplierDel.action")
-    public String supplierDelAction(Map<String , Object> map, Integer id){
-        try{
-            map.put("sup_id" , id);
-            supplierService.supplierDelAction(map,id);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/supplierDel")
+    @ResponseBody
+    public JacksonData supplierDelAction(@RequestParam Integer id){
+        JacksonData backData = new JacksonData();
+        Supplier supplier = supplierService.supplierDelAction(id);
+        backData.success(supplier);
+        return backData;
     }
     //通过map进行的批量删除，用户ID存到数组中去
-    @RequestMapping("/supplierMoreDel.action")
-    public String supplierMoreDelAction(Map<String , Object> map,Integer[] sup_ids){
-        try{
-            map.put("sup_ids" , sup_ids);
-            supplierService.supplierMoreDelAction(map);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/supplierMoreDel")
+    @ResponseBody
+    public JacksonData supplierMoreDelAction(Integer[] ids){
+        JacksonData backData = new JacksonData();
+        List list = supplierService.supplierMoreDelAction(ids);
+        backData.success(list);
+        return backData;
     }
     
     /*
@@ -234,35 +224,22 @@ public class SupplierController {
 
         return "main/message";
     }
-    //弹出删除信息框
-    @RequestMapping("/supplierLicenseDel")
-    public String supplierLicenseDel(Map<String , Object> map, Integer id){
-        map.put("id" , id);
-        map.put("url" , "supplierLicenseDel.action");
-        return "main/del";
-    }
     //通过ID删除该b报价的信息，，，逻辑删除
-    @RequestMapping("/supplierLicenseDel.action")
-    public String supplierLicenseDelAction(Map<String , Object> map, Integer id){
-        try{
-            map.put("st_id" , id);
-            supplierService.supplierLicenseDelAction(map,id);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/supplierLicenseDel")
+    @ResponseBody
+    public JacksonData supplierLicenseDelAction(@RequestParam Integer id){
+        JacksonData backData = new JacksonData();
+        SupplierLicenseType supplierLicenseType = supplierService.supplierLicenseDelAction(id);
+        backData.success(supplierLicenseType);
+        return backData;
     }
-    //通过map进行的批量删除，用户ID存到数组中去
-    @RequestMapping("/supplierLicenseMoreDel.action")
-    public String supplierLicenseMoreDelAction(Map<String , Object> map,Integer[] st_ids){
-        try{
-            map.put("st_ids" , st_ids);
-            supplierService.supplierLicenseMoreDelAction(map);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    //用户ID存到数组中去
+    @RequestMapping("/supplierLicenseMoreDel")
+    @ResponseBody
+    public JacksonData supplierLicenseMoreDelAction(Integer[] ids){
+        JacksonData backData = new JacksonData();
+        List list = supplierService.supplierLicenseMoreDelAction(ids);
+        backData.success(list);
+        return backData;
     }
 }

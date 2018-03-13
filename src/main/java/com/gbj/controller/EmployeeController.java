@@ -1,14 +1,17 @@
 package com.gbj.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gbj.utils.JacksonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gbj.model.Employee;
@@ -24,9 +27,14 @@ public class EmployeeController {
     //员工的模糊查询及分页
     @RequestMapping("/empsList")
     public String employeeList(Map<String , Object> map,Employee employee,@RequestParam(required=false,defaultValue="1")Integer pages,HttpServletRequest request){
-        map = PageBean.serverMap(map , employee , pages);
-        map = employeeService.employeeList(map);
-        map = PageBean.clientMap(map , pages , request);
+        try {
+            map = PageBean.serverMap(map , employee , pages);
+            map = employeeService.employeeList(map);
+            map = PageBean.clientMap(map , pages , request);
+        }catch (RuntimeException e){
+            map.put("message",e.getMessage());
+        }
+
         return "employee/employeeList";
     }
     //弹出添加信息框
@@ -75,36 +83,23 @@ public class EmployeeController {
         return "main/message";
         
     }
-    //弹出删除信息框
-    @RequestMapping("/employeeDel")
-    public String employeeDel(Map<String , Object> map, Integer id){
-        map.put("id" , id);
-        map.put("url" , "employeeDel.action");
-        return "main/del";
-    }
     //通过ID删除该用户的信息，，，逻辑删除
-    @RequestMapping("/employeeDel.action")
-    public String employeeDelAction(Map<String , Object> map, Integer id){
-        try{
-            map.put("emp_id" , id);
-            employeeService.employeeDelAction(map,id);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/employeeDel")
+    @ResponseBody
+    public JacksonData employeeDelAction(@RequestParam Integer id){
+        JacksonData backData = new JacksonData();
+        Employee employee = employeeService.employeeDelAction(id);
+        backData.success(employee);
+        return backData;
     }
     //通过map进行的批量删除，用户ID存到数组中去
-    @RequestMapping("/employeeMoreDel.action")
-    public String employeeMoreDelAction(Map<String , Object> map,Integer[] emp_ids){
-        try{
-            map.put("emp_ids" , emp_ids);
-            employeeService.employeeMoreDelAction(map);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/employeeMoreDel")
+    @ResponseBody
+    public JacksonData employeeMoreDelAction(Integer[] ids){
+        JacksonData backData = new JacksonData();
+        List employeeList = employeeService.employeeMoreDelAction(ids);
+        backData.success(employeeList);
+        return backData;
     }
     //离职员工的模糊查询及分页
     @RequestMapping("/empsNotList")
@@ -114,23 +109,14 @@ public class EmployeeController {
         map = PageBean.clientMap(map , pages , request);
         return "employee/employeeNotList";
     }
-    //弹出确认恢复信息框
-    @RequestMapping("/employeeRec")
-    public String employeeRec(Map<String , Object> map, Integer emp_id){
-        map.put("emp_id" , emp_id);
-        return "employee/employeeRec";
-    }
     //通过ID恢复该用户的职位，，，逻辑恢复
-    @RequestMapping("/employeeRec.action")
-    public String employeeRecAction(Map<String , Object> map, Integer emp_id){
-        try{
-            map.put("emp_id" , emp_id);
-            employeeService.employeeRecAction(map);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/employeeRec")
+    @ResponseBody
+    public JacksonData employeeRecAction(@RequestParam Integer id){
+        JacksonData backData = new JacksonData();
+        Employee employee = employeeService.employeeRecAction(id);
+        backData.success(employee);
+        return backData;
     }
     
 }

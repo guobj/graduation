@@ -1,24 +1,14 @@
 package com.gbj.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
+import com.gbj.mapper.*;
+import com.gbj.model.*;
+import com.gbj.service.ConsumerService;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gbj.mapper.ConsumerGrandMapper;
-import com.gbj.mapper.ConsumerMapper;
-import com.gbj.mapper.ConsumerSourceMapper;
-import com.gbj.mapper.EconomicTypeMapper;
-import com.gbj.mapper.IndustryMapper;
-import com.gbj.mapper.SaleModelMapper;
-import com.gbj.model.Consumer;
-import com.gbj.model.ConsumerGrand;
-import com.gbj.model.ConsumerSource;
-import com.gbj.model.EconomicType;
-import com.gbj.model.Industry;
-import com.gbj.model.SaleModel;
-import com.gbj.service.ConsumerService;
+import java.util.List;
+import java.util.Map;
 @Service
 public class ConsumerServiceImpl implements ConsumerService {
 
@@ -106,27 +96,25 @@ public class ConsumerServiceImpl implements ConsumerService {
 
     }
     @Override
-    public int consumerDel(Map<String , Object> map , Integer con_id ) {
+    public Consumer consumerDel(Integer con_id ) {
         // TODO Auto-generated method stub
+        Consumer consumer = consumerMapper.load(con_id);
         int result = consumerMapper.consumerDel(con_id);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
-        }else{
-            throw new RuntimeException("删除失败");
+            return consumer;
         }
+        return null;
         
     }
     @Override
-    public int consumerMoreDel(Map<String , Object> map ) {
+    public List consumerMoreDel(Integer[] ids) {
         // TODO Auto-generated method stub
-        int result = consumerMapper.consumerMoreDel(map);
+        List consumerList = consumerMapper.findAllList();
+        int result = consumerMapper.consumerMoreDel(ids);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
-        }else{
-            throw new RuntimeException("删除失败");
+            return consumerList;
         }
+        return  null;
     }
     //客户等级分页
     @Override
@@ -145,12 +133,12 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
     //客户等级逻辑删除
     @Override
-    public int consumerGrandDelAction(Map<String , Object> map, Integer cg_id ) {
+    public ConsumerGrand consumerGrandDelAction( Integer cg_id ) {
         // TODO Auto-generated method stub
+        ConsumerGrand consumerGrand = consumerGrandMapper.load(cg_id);
         int result = consumerGrandMapper.consumerGrandDelAction(cg_id);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return consumerGrand;
         }else{
             throw new RuntimeException("删除失败");
         }

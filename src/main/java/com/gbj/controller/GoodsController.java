@@ -104,13 +104,6 @@ public class GoodsController {
         
         return "main/message";
     }
-    //通过ID弹出确认删除的信息框
-    @RequestMapping("/del")
-    public String del(Map<String , Object> map, Integer id){
-        map.put("id" , id);
-        map.put("url" , "goodsDel");
-        return "main/del";
-    }
 
     //单个删除
     @RequestMapping(value = "/goodsDel",produces = "application/json",consumes = "application/json")
@@ -118,11 +111,9 @@ public class GoodsController {
     public JacksonData goodsDel(Map<String , Object> map,@RequestParam Integer id){
         JacksonData data = new JacksonData();
         try{
-//            map.put("goods_id" , id);
             Goods good = goodsService.goodsDel(map,id);
             data.success(good);
         }catch(Exception e){
-            // TODO: handle exception
             map.put("message" , e.getMessage());
         }
         return data;

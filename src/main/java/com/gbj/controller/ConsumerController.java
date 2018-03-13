@@ -1,22 +1,23 @@
 package com.gbj.controller;
 
-import java.io.IOException;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.gbj.model.Consumer;
 import com.gbj.model.ConsumerGrand;
 import com.gbj.service.ConsumerService;
 import com.gbj.utils.FileUpload;
+import com.gbj.utils.JacksonData;
 import com.gbj.utils.PageBean;
 import com.gbj.utils.TimeDemo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ConsumerController {
@@ -78,43 +79,25 @@ public class ConsumerController {
         return "main/message";
         
     }
-    //弹出确认删除信息框
-    @RequestMapping("/consumerDel")
-    public String consumerDel(Map<String , Object> map, Integer id){
-        map.put("id" , id);
-        map.put("url" , "consumerDel.action");
-        return "main/del";
-    }
+
     //通过ID删除该类型的信息，，，物理删除
-    @RequestMapping("/consumerDel.action")
-    public String consumerDelAction(Map<String , Object> map, Integer id){
-        try{
-            map.put("con_id" , id);
-            consumerService.consumerDel(map,id);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/consumerDel")
+    @ResponseBody
+    public JacksonData consumerDel(@RequestParam Integer id){
+        JacksonData data = new JacksonData();
+        Consumer consumer = consumerService.consumerDel(id);
+        data.success(consumer);
+        return data;
     }
-    /*//弹出确认删除信息框
-    @RequestMapping("/consumerMoreDel")
-    public String consumerDel(Map<String , Object> map, Integer[] con_ids){
-        map.put("id" , con_ids);
-        map.put("url" , "consumerMoreDel.action");
-        return "main/del";
-    }*/
+
     //通过map进行的批量删除，商品ID存到数组中去
     @RequestMapping("/consumerMoreDel")
-    public String consumerMoreDel(Map<String , Object> map,Integer[] con_ids){
-        try{
-            map.put("con_ids" , con_ids);
-            consumerService.consumerMoreDel(map);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @ResponseBody
+    public JacksonData consumerMoreDel(Integer[] ids){
+        JacksonData backData = new JacksonData();
+        List data = consumerService.consumerMoreDel(ids);
+        backData.success(data);
+        return backData;
     }
     @RequestMapping("/consumerRemark")
     //客户备注信息查询ji分页
@@ -152,25 +135,16 @@ public class ConsumerController {
         map = PageBean.clientMap(map , pages , request);
         return "consumer/consumerGrandPageList";
     }
+
     //客户等级逻辑删除
-    //弹出确认删除信息框
-    @RequestMapping("/consumerGrandDel")
-    public String consumerGrandDel(Map<String , Object> map, Integer id){
-        map.put("id" , id);
-        map.put("url" , "consumerGrandDel.action");
-        return "main/del";
-    }
-    //通过ID删除该类型的信息，，，物理删除
-    @RequestMapping("/consumerGrandDel.action")
-    public String consumerGrandDelAction(Map<String , Object> map, Integer id){
-        try{
-            map.put("cg_id" , id);
-            consumerService.consumerGrandDelAction(map,id);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    //单个删除
+    @RequestMapping(value = "/consumerGrandDel",produces = "application/json",consumes = "application/json")
+    @ResponseBody
+    public JacksonData consumerGrandDel(@RequestParam Integer id){
+        JacksonData data = new JacksonData();
+        ConsumerGrand consumerGrand = consumerService.consumerGrandDelAction(id);
+        data.success(consumerGrand);
+        return data;
     }
     //弹出添加信息的窗口
     @RequestMapping("/consumerGrandAdd")

@@ -103,19 +103,26 @@
         </set>
         where con_id=#{con_id}
     </update>
-    <delete id="consumerDel" parameterType="integer">
-        DELETE FROM consumer WHERE con_id=#{con_id}
-    </delete>
-    <delete id="consumerMoreDel" parameterType="map">
-        DELETE FROM 
-            consumer 
-        WHERE 
+    <update id="consumerDel" parameterType="integer">
+        UPDATE
+            consumer
+        SET
+            con_status = 0
+        WHERE
+            con_id=#{con_id}
+    </update>
+    <update id="consumerMoreDel" parameterType="integer">
+        UPDATE
+            consumer
+        SET
+            con_status = 0
+        WHERE
             con_id 
         IN 
-        <foreach collection="con_ids" item="con_id" open="(" close=")" separator=",">
+        <foreach collection="array" item="con_id" open="(" close=")" separator=",">
             #{con_id}
         </foreach>
-    </delete>
+    </update>
     <insert id="consumerRemark" parameterType="com.gbj.model.Consumer">
         INSERT INTO 
             consumer(con_remark) 

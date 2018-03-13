@@ -2,6 +2,13 @@
  * Created by guobj on 2018/3/12.
  */
 //单个删除
+
+/**
+ *
+ * @param id  删除数据id
+ * @param requestUrl  请求地址
+ * @param responseUrl  刷新地址
+ */
 function del(id,requestUrl,responseUrl) {
     swal({
             title: "Are you sure?",
@@ -52,12 +59,20 @@ function del(id,requestUrl,responseUrl) {
         });
 }
 
+
+/**
+ *
+ * @param idName    主键名称
+ * @param requestUrl    请求地址
+ * @param responseUrl    刷新地址
+ */
 //批量删除
 function delMore(idName,requestUrl,responseUrl){
     var ids = new Array();
     $("input[name="+idName+"]:checked").each(function() {
         //将选中数据存到数组里
         ids.push($(this).val());
+        console.log(ids)
     });
     if(ids.length<=0){
         swal({

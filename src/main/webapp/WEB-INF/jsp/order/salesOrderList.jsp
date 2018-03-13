@@ -28,6 +28,9 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/jsutil.js" type="text/javascript"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function salesOrderAdd() {
 			var addDialog = top.dialog({
@@ -204,9 +207,9 @@
                                             <button type="button" class="btn btn-outline btn-info" onclick="goodsStockOut(${order.or_id })">生成出库单</button>
                                             <button type="button" class="btn btn-outline btn-danger" onclick="cancel(${order.or_id })">取消</button>
                                         </c:if>
-                                        <c:if test="${order.or_status eq -1 }">
-                                            <button type="button" class="btn btn-outline btn-danger" onclick="del(${order.or_id })">删除</button>
-                                        </c:if>
+                                        <%--<c:if test="${order.or_status eq -1 }">--%>
+                                            <%--<button type="button" class="btn btn-outline btn-danger" onclick="del(${order.or_id })">删除</button>--%>
+                                        <%--</c:if>--%>
                                         <c:if test="${order.or_status eq 2 }">
                                             <button type="button" class="btn btn-outline btn-info" onclick="orderDetails(${order.or_id })">订单明细</button>
                                         </c:if>

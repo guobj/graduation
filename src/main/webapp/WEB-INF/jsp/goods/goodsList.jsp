@@ -65,28 +65,6 @@
 		}
     </script>
 
-    <!-- <script type="text/javascript">
-    function delMore(){
-    	var goods_ids = new Array();
-        $("input[name='goods_id']:checked").each(function() {
-         //将选中数据存到数组里
-         goods_ids.push($(this).val());
-         });
-        if(goods_ids.length<=0){
-        	alert("请选择要删除的数据！");
-        }else{
-        	var delMoreDialog = top.dialog({
-                title:'删除商品',
-                url:'delMore?goods_ids='+goods_ids,
-                width:'500px',
-                onclose:function (){
-                    window.location.reload();
-                }
-            });
-            delMoreDialog.showModal();
-        }
-        
-    } -->
     <script type="text/javascript">
         function goodsExcel(){
         	window.location.href="goodsExcel";

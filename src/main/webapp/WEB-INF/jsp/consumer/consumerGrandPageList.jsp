@@ -28,6 +28,9 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/jsutil.js" type="text/javascript"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function consumerGrandAdd() {
             var addDialog = top.dialog({
@@ -40,19 +43,6 @@
                 }
             });
             addDialog.showModal();
-        }
-    </script>
-    <script type="text/javascript">
-        function del(id){
-            var delDialog = top.dialog({
-                title:'删除商品',
-                url:'consumerGrandDel?id='+id,
-                width:'500px',
-                onclose:function (){
-                    window.location.href="consumerGrand";
-                }
-            });
-            delDialog.showModal();
         }
     </script>
 </head>
@@ -92,7 +82,7 @@
                                     <td><input name="cg_id" type="checkbox" value="${consumerGrandPage.cg_id }"></td>
                                     <td>${consumerGrandPage.cg_name }</td>
                                     <td>
-                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${consumerGrandPage.cg_id })">删除</button>
+                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${consumerGrandPage.cg_id },'consumerGrandDel','consumerGrand')">删除</button>
                                     </td>
                                     
                                 </tr>

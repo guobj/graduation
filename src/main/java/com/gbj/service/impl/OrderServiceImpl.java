@@ -142,33 +142,26 @@ public class OrderServiceImpl implements OrderService {
     }
     //取消未生成出库单的订单  只修改订单的状态位-1并将库存数改回原库存
     @Override
-    public int cancelOrder(Map<String , Object> map ) {
+    public Order cancelOrder(Integer or_id ) {
         // TODO Auto-generated method stub
-        Order order = orderMapper.loadOrder(Integer.parseInt(map.get("or_id").toString()));
-        int result = orderMapper.cancelOrder(Integer.parseInt(map.get("or_id").toString()));
+        Order order = orderMapper.loadOrder(or_id);
+        int result = orderMapper.cancelOrder(or_id);
         System.out.println("得到的状态职位"+order.getOr_status());
         if(order.getOr_status()==1){
             if(result>0){
-                //执行库存回加
+                //执行库存回写
                 Goods goods = new Goods();
                 goods.setGoods_nums(order.getOr_nums());
                 goods.setGoods_id(order.getFk_goods_id());
                 System.out.println("商品ID"+order.getFk_goods_id());
                 goodsMapper.goodsStockInUpdateAction(goods);
-                map.put("message" , "订单已取消");
-                return result;
-            }else{
-                throw new RuntimeException("取消失败");
+                return order;
             }
         }else{
             if(result>0){
-                map.put("message" , "订单已取消");
-                return result;
-            }else{
-                throw new RuntimeException("取消失败");
             }
         }
-
+return null;
     }
     //取消已生成出库单的订单  修改订单的状态和出库单的状态 订单-1 出库单-1
 

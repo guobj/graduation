@@ -28,6 +28,9 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/jsutil.js" type="text/javascript"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function supplierLicenseAdd() {
 			var addDialog = top.dialog({
@@ -42,42 +45,6 @@
 			addDialog.showModal();
 		}
     </script>
-    <script type="text/javascript">
-        function del(id){
-        	var delDialog = top.dialog({
-                title:'删除此证照',
-                url:'supplierLicenseDel?id='+id,
-                width:'300px',
-                onclose:function (){
-                	window.location.href="supplierLtList";
-                }
-            });
-            delDialog.showModal();
-        }
-    </script>
-    <script type="text/javascript">
-        function supplierLicenseMoreDel(){
-        	var st_ids = new Array();
-    	   $("input[name='st_id']:checked").each(function() {
-            //将选中数据存到数组里
-            st_ids.push($(this).val());
-            });
-    	   if(st_ids.length<=0){
-               alert("请选择要删除的数据！");
-           }else{
-                var delDialog = top.dialog({
-                    title:'删除证照',
-                    url:'supplierLicenseMoreDel.action?st_ids='+st_ids,
-                    width:'300px',
-                    onclose:function (){
-                       // self.location.reload();
-                    	window.location.href="supplierLtList";
-                    }
-                });
-                delDialog.showModal();
-           }
-        }
-    </script>
 </head>
 
 <body class="gray-bg">
@@ -87,7 +54,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5><button type="button" class="btn btn-outline btn-info" onclick="supplierLicenseAdd()">新增证照</button>
-                            <button type="button" class="btn btn-outline btn-danger" onclick="supplierLicenseMoreDel()">批量删除</button>
+                            <button type="button" class="btn btn-outline btn-danger" onclick="delMore('st_id','supplierLicenseMoreDel','supplierLtList')">批量删除</button>
                         </h5>
                         <div class="ibox-tools">
                             <form action="supplierLtList" method="post" target="_self">
@@ -125,7 +92,7 @@
                                     <td>${supplierLicense.st_enddate }</td>
                                     <td>
                                         <c:if test="${supplierLicense.st_status eq 1}">
-                                            <button type="button" class="btn btn-outline btn-danger" onclick="del(${supplierLicense.st_id } )">删除</button>
+                                            <button type="button" class="btn btn-outline btn-danger" onclick="del(${supplierLicense.st_id },'supplierLicenseDel','supplierLtList' )">删除</button>
                                         </c:if>
                                         <c:if test="${supplierLicense.st_status eq 0}">
                                             <font color="red">证照已无效</font>

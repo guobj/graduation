@@ -127,24 +127,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     //逻辑删除一条数据ByID
     @Override
-    public int employeeDelAction(Map<String , Object> map , Integer emp_id ) {
+    public Employee employeeDelAction(Integer emp_id ) {
         // TODO Auto-generated method stub
+        Employee employee = employeeMapper.load(emp_id);
         int result = employeeMapper.employeeDelAction(emp_id);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return employee;
         }else{
             throw new RuntimeException("删除失败");
         }
     }
     //逻辑删除多条数据ByIDs
     @Override
-    public int employeeMoreDelAction(Map<String , Object> map ) {
+    public List employeeMoreDelAction(Integer[] emp_ids ) {
         // TODO Auto-generated method stub
-        int result = employeeMapper.employeeMoreDelAction(map);
+        List<?> employeeList= employeeMapper.findAllList();
+        int result = employeeMapper.employeeMoreDelAction(emp_ids);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return employeeList;
         }else{
             throw new RuntimeException("删除失败");
         }
@@ -163,12 +163,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
     @Override
-    public int employeeRecAction(Map<String , Object> map ) {
+    public Employee employeeRecAction(Integer emp_id ) {
         // TODO Auto-generated method stub
-        int result = employeeMapper.employeeRecAction(Integer.parseInt(map.get("emp_id").toString()));
+        Employee employee = employeeMapper.load(emp_id);
+        int result = employeeMapper.employeeRecAction(emp_id);
         if(result>0){
-            map.put("message" , "恢复成功");
-            return result;
+            return employee;
         }else{
             throw new RuntimeException("恢复失败");
         }

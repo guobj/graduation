@@ -12,7 +12,15 @@
         <association property="supplier" column="fk_sup_id" select="com.gbj.mapper.SupplierMapper.load"/>
         <association property="licenseType" column="fk_lt_id" select="com.gbj.mapper.LicenseTypeMapper.load"/>
     </resultMap>
-<!--     分页及模糊查询 -->
+    <select id="load" parameterType="integer" resultType="com.gbj.model.SupplierLicenseType">
+        SELECT
+            *
+        FROM
+            supplier_license_type
+        WHERE
+            st_id=#{st_id}
+    </select>
+    <!--     分页及模糊查询 -->
     <select id="supplierLicenseList" parameterType="map" resultMap="SupplierLicenseTypeBaseResultMap">
         SELECT 
             * 
@@ -58,7 +66,7 @@
         
     </update>
 <!--     批量删除报价 -->
-    <update id="supplierLicenseMoreDelAction" parameterType="map">
+    <update id="supplierLicenseMoreDelAction" parameterType="integer">
         UPDATE 
             supplier_license_type 
         SET
@@ -66,8 +74,20 @@
         WHERE
             st_id   
         IN
-        <foreach collection="st_ids" close=")" open="(" item="st_id" separator=",">
+        <foreach collection="array" close=")" open="(" item="st_id" separator=",">
             #{st_id}
         </foreach>
     </update>
+    <select id="findAll" parameterType="integer" resultType="com.gbj.model.SupplierLicenseType">
+        SELECT
+            *
+        FROM
+            supplier_license_type
+        <!--WHERE -->
+            <!--st_id-->
+        <!--IN-->
+            <!--<foreach collection="array" close=")" open="(" item="st_id" separator=",">-->
+                <!--#{st_id}-->
+            <!--</foreach>-->
+    </select>
   </mapper>

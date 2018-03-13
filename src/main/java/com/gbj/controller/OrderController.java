@@ -1,22 +1,21 @@
 package com.gbj.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.gbj.model.Order;
 import com.gbj.service.OrderService;
 import com.gbj.utils.PageBean;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class OrderController {
@@ -120,14 +119,14 @@ public class OrderController {
             e.getMessage();
         }
     }
-    //弹出确认取消的窗口
-    @RequestMapping("/cancelOrder")
-    public String cancelOrder(Map<String , Object> map,Integer or_id){
-        map.put("or_id" , or_id);
-        map.put("url" , "cancelOrder.action");
-        map.put("message" , "是否确定取消订单？");
-        return "order/cancel";
-    }
+//    // //执行未生成出库单的订单取消动作
+//    @RequestMapping("/cancelOrder")
+//    public String cancelOrder(Map<String , Object> map,Integer or_id){
+//        map.put("or_id" , or_id);
+//        map.put("url" , "cancelOrder.action");
+//        map.put("message" , "是否确定取消订单？");
+//        return "order/cancel";
+//    }
     //弹出确认已生成出库单的取消的窗口
     @RequestMapping("/cancelGoodsOut")
     public String cancelGoodsOut(Map<String , Object> map,Integer or_id){
@@ -138,18 +137,14 @@ public class OrderController {
     }
     //执行未生成出库单的订单取消动作
     @RequestMapping("/cancelOrder.action")
-    public String cancelOrderAction(Map<String , Object> map,Integer or_id){
-        try{
-            map.put("or_id" , or_id);
-            orderService.cancelOrder(map);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
+    @ResponseBody
+    public String cancelOrderAction(@RequestParam Integer or_id){
+            orderService.cancelOrder(or_id);
         return "main/message";
     }
     //执行已生成出库单的订单取消动作
     @RequestMapping("/cancelGoodsOut.action")
+
     public String cancelGoodsOutAction(Map<String , Object> map,Integer or_id){
         try{
             map.put("or_id" , or_id);
@@ -172,5 +167,11 @@ public class OrderController {
         }
         return "order/orderDetails";
     }
-    
+
+//    @RequestMapping(value = "/orderDel")
+//    @ResponseBody
+//    public JacksonData orderDel(@RequestParam Integer id){
+//        JacksonData backData = new JacksonData();
+//
+//    }
 }

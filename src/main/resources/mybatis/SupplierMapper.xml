@@ -117,7 +117,7 @@
         WHERE
             sup_id
         IN
-            <foreach collection="sup_ids" open="(" close=")" separator="," item="sup_id">
+            <foreach collection="array" open="(" close=")" separator="," item="sup_id">
                 #{sup_id}
             </foreach>
     </update>
