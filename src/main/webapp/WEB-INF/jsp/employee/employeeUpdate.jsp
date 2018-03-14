@@ -415,10 +415,15 @@
                                 <label class="col-sm-3 control-label">用户角色：</label>
                                 <div class="col-sm-8">
                                      <select data-placeholder="选择客户等级..." id="fk_role_id" name="fk_role_id" class="form-control" tabindex="2">
-                                        <option value="0">请选择用户角色</option>
+                                        <c:if test="${employeeMap.emp_id eq 1}">
+                                            <option value="1">超级管理员</option>
+                                        </c:if>
+                                         <c:if test="${employeeMap.emp_id != 1}">
+                                         <option value="0">请选择用户角色</option>
                                         <c:forEach items="${roleEmpList }" var="role">
                                             <option value="${role.role_id }" <c:if test="${role.role_id eq employeeMap.fk_role_id}">selected="selected"</c:if>>${role.role_name }</option>
                                         </c:forEach>
+                                         </c:if>
                                     </select>
                                     <font id="r_id"></font>
                                 </div>

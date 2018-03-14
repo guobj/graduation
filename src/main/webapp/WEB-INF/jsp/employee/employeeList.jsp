@@ -126,7 +126,9 @@
                                     <td>${employee.emp_time }</td>
                                     <td>
                                         <button type="button" class="btn btn-outline btn-info" onclick="employeeUpdate(${employee.emp_id })">编辑</button>
+                                        <c:if test="${employee.emp_id != 1 }">
                                         <button type="button" class="btn btn-outline btn-danger" onclick="del(${employee.emp_id },'employeeDel','empsList')">删除</button>
+                                        </c:if>
                                     </td>
                                     
                                 </tr>
