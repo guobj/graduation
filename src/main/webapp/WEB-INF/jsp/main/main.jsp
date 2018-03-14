@@ -32,7 +32,10 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
-    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jsutil.js"></script>
     <style type="text/css">
         .date_now {
                 background-color: #f4f4f4;
@@ -45,16 +48,54 @@
                 border-width: 2px;
             }
     </style>
-        <%--<script type="text/javascript">--%>
-            <%--$(function () {--%>
-                <%--$("#indexjsp").click(--%>
-                    <%--function () {--%>
-                       <%--$("#testindex").attr("src","index");--%>
-                    <%--}--%>
-                <%--)--%>
-
-            <%--})--%>
-        <%--</script>--%>
+    <script type="text/javascript">
+            function loginOut() {
+                swal({
+                        title: "Are you sure?",
+                        text: "You are going to quit!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "退出！",
+                        closeOnConfirm: false
+                    },
+                    function () {
+                        $.ajax(
+                            {
+                                type: "get",
+                                url: "loginOut",
+                                contentType: 'application/json;charset=UTF-8',
+                                dataType: "json",
+                                traditional: true,
+                                async: false,
+//                                data: {"id": id},
+                                success: function (data) {
+//                                console.log(data.data.goods_id)
+                                    swal({
+                                            title: '即将退出',
+                                            text: '2秒后自动关闭。',
+                                            timer: 2000
+                                        },
+                                        function () {
+                                            window.location.href = "login";
+                                        });
+//                                    swal("操作成功!", "已成功删除数据！", "success");
+//                                    window.location.href="goodsList";
+                                },
+                                error: function (data) {
+                                    swal({
+                                            title: 'OMG，出错了',
+                                            text: '2秒后自动关闭。',
+                                            timer: 2000
+                                        });
+//                                    swal("OMG", "删除操作失败了!", "error");
+//                                    window.location.href="goodsList";
+                                }
+                            }
+                        )
+                    });
+            }
+    </script>
 </head>
 
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
@@ -80,7 +121,7 @@
                                 <li><a class="J_menuItem" href="personalInfo">个人资料</a>
                                 </li>
                                 <li class="divider"></li>
-                                <li><a href="loginOut">安全退出</a>
+                                <li><a href="javascript:void(0);" onclick="loginOut()">安全退出</a>
                                 </li>
                             </ul>
                         </div>

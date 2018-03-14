@@ -97,7 +97,7 @@ public class EmployeeController {
     @ResponseBody
     public JacksonData employeeMoreDelAction(Integer[] ids){
         JacksonData backData = new JacksonData();
-        List employeeList = employeeService.employeeMoreDelAction(ids);
+        List employeeList = employeeService.employeeNotMoreDelAction(ids);
         backData.success(employeeList);
         return backData;
     }

@@ -219,4 +219,17 @@
         WHERE
             emp_id=#{emp_id}
     </update>
+<!--//批量删除离职员工不可恢复！！！！-->
+    <update id="employeeNotMoreDelAction" parameterType="integer">
+        UPDATE
+            employee
+        SET
+            emp_status=-1
+        WHERE
+            emp_id
+        IN
+        <foreach collection="array" open="(" close=")" separator="," item="emp_id">
+            #{emp_id}
+        </foreach>
+    </update>
   </mapper>

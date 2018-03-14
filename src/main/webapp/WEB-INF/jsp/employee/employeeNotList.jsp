@@ -33,74 +33,122 @@
     <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function employeeRec(emp_id) {
-			var updateDialog = top.dialog({
-				title:'编辑信息',
-				url:'employeeRec?emp_id='+emp_id,
-				//width:'1000px',
-				onclose:function (){
-                    window.location.reload();
-                }
-			});
-			updateDialog.showModal();
+            swal({
+                    title: "Are you sure?",
+                    text: "You confirm the recovery!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#8DEEEE",
+                    confirmButtonText: "恢复！",
+                    closeOnConfirm: false
+                },
+                function () {
+                    $.ajax(
+                        {
+                            type: "get",
+                            url: "employeeRec",
+                            contentType: 'application/json;charset=UTF-8',
+                            dataType: "json",
+                            traditional: true,
+                            async: false,
+                            data: {"id": emp_id},
+                            success: function (data) {
+//                                console.log(data.data.goods_id)
+                                swal({
+                                        title: '操作成功',
+                                        text: '2秒后自动关闭。',
+                                        timer: 2000
+                                    },
+                                    function () {
+                                        window.location.href = "empsNotList";
+                                    });
+//                                    swal("操作成功!", "已成功删除数据！", "success");
+//                                    window.location.href="goodsList";
+                            },
+                            error: function (data) {
+                                swal({
+                                        title: '操作失败',
+                                        text: '2秒后自动关闭。',
+                                        timer: 2000
+                                    },
+                                    function () {
+                                        window.location.href = "empsNotList";
+                                    });
+//                                    swal("OMG", "删除操作失败了!", "error");
+//                                    window.location.href="goodsList";
+                            }
+                        }
+                    )
+                });
 		}
     </script>
-    <%--<script type="text/javascript">--%>
-        <%--function del(id){--%>
-        	<%--var delDialog = top.dialog({--%>
-                <%--title:'删除用户',--%>
-                <%--url:'employeeDel?id='+id,--%>
-                <%--width:'500px',--%>
-                <%--onclose:function (){--%>
-                	<%--window.location.href="empsList";--%>
-                <%--}--%>
-            <%--});--%>
-            <%--delDialog.showModal();--%>
-        <%--}--%>
-    <%--</script>--%>
-    <!-- <script type="text/javascript">
-    function delMore(){
-    	var goods_ids = new Array();
-        $("input[name='goods_id']:checked").each(function() {
-         //将选中数据存到数组里
-         goods_ids.push($(this).val());
-         });
-        if(goods_ids.length<=0){
-        	alert("请选择要删除的数据！");
-        }else{
-        	var delMoreDialog = top.dialog({
-                title:'删除商品',
-                url:'delMore?goods_ids='+goods_ids,
-                width:'500px',
-                onclose:function (){
-                    window.location.reload();
-                }
-            });
-            delMoreDialog.showModal();
-        }
-        
-    } -->
-<%--//    </script>--%>
     <script type="text/javascript">
         function employeeMoreDel(){
-        	var emp_ids = new Array();
-    	   $("input[name='emp_id']:checked").each(function() {
-            //将选中数据存到数组里
-            emp_ids.push($(this).val());
+            var ids = new Array();
+            $("input[name='emp_id']:checked").each(function() {
+                //将选中数据存到数组里
+                ids.push($(this).val());
+                console.log(ids)
             });
-    	   if(emp_ids.length<=0){
-               alert("请选择要删除的数据！");
-           }else{
-                var delDialog = top.dialog({
-                    title:'删除商品',
-                    url:'employeeMoreDel.action?emp_ids='+emp_ids,
-                    width:'500px',
-                    onclose:function (){
-                       // self.location.reload();
-                    	window.location.href="empsList";
-                    }
-                });
-                delDialog.showModal();
-           }
+            if(ids.length<=0){
+                swal({
+                        title: '请选择要要删除的数据！',
+                        text: '2秒后自动关闭。',
+                        timer: 2000
+                    },
+                    function () {
+                        window.location.href="empsNotList";
+                    });
+                // handling the promise rejection
+
+            }else{
+                swal({
+                        title: "Are you sure?",
+                        text: "Not recoverable after the file is deleted!",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "删除",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        $.ajax(
+                            {
+                                type: "post",
+                                url: "employeeMoreDel",
+                                dataType:"JSON",
+                                traditional: true,
+                                // contentType: 'application/json;charset=UTF-8',
+                                data:{"ids": ids},
+                                success:function (data) {
+                                    //console.log(data,'<>?')
+                                    swal({
+                                            title: '操作成功',
+                                            text: '2秒后自动关闭。',
+                                            timer: 2000
+                                        },
+                                        function () {
+                                            window.location.href="empsNotList";
+                                        });
+//                                    swal("操作成功!", "已成功删除数据！", "success");
+//                                    window.location.href="goodsList";
+                                },
+                                error:function (data) {
+                                    swal({
+                                            title: '操作失败',
+                                            text: '2秒后自动关闭。',
+                                            timer: 2000
+                                        },
+                                        function () {
+                                            window.location.href="empsNotList";
+                                        });
+//                                    swal("OMG", "删除操作失败了!", "error");
+//                                    window.location.href="goodsList";
+                                }
+                            }
+                        )
+                    });
+            }
         }
     </script>
 </head>
@@ -169,7 +217,7 @@
                                     <td>${employee.role.role_name }</td>
                                     <td>${employee.emp_time }</td>
                                     <td>
-                                        <button type="button" class="btn btn-outline btn-info" onclick="del(${employee.emp_id },'employeeRec','empsNotList')">恢复</button>
+                                        <button type="button" class="btn btn-outline btn-info" onclick="employeeRec(${employee.emp_id },'employeeRec','empsNotList')">恢复</button>
                                         <%--<button type="button" class="btn btn-outline btn-danger" onclick="del(${employee.emp_id })">删除</button>--%>
                                     </td>
                                     

@@ -35,4 +35,7 @@ public interface EmployeeService {
 
 	//恢复离职员工职位、
 	public Employee employeeRecAction(Integer emp_id);
+
+	//逻辑删除多个用户
+	public List employeeNotMoreDelAction(Integer[] emp_ids);
 }

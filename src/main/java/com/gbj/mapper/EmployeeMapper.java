@@ -47,4 +47,7 @@ public interface EmployeeMapper {
 
 	//修改密码
 	public int passwordMdi(Employee employee);
+
+	//批量删除离职员工不可恢复
+	public int employeeNotMoreDelAction(Integer[] emp_ids);
 }
