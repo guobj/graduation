@@ -30,6 +30,7 @@
             <if test="goodstype.gt_type!=null and goodstype.gt_type!=''">
                 AND gt_type LIKE concat("%",#{goodstype.gt_type},"%")
             </if>
+            AND gt_state=0
         </where>
         LIMIT #{record},4
     </select>
@@ -42,17 +43,20 @@
             <if test="goodstype.gt_type!=null and goodstype.gt_type!=''">
                 AND gt_type LIKE concat("%",#{goodstype.gt_type},"%")
             </if>
+            AND gt_state=0
         </where>
     </select>
     <insert id="goodsTypeAddAction" parameterType="com.gbj.model.GoodsUnit">
         INSERT INTO 
-            goodstype(gt_type) 
+            goodstype(gt_type,gt_state)
         VALUES
-            (#{gt_type})
+            (#{gt_type},0)
     </insert>
     <delete id="goodsTypeDelAction" parameterType="integer">
-        DELETE FROM 
-            goodstype 
+        UPDATE
+            goodstype
+        SET
+            gt_state=1
         WHERE 
             gt_id=#{gt_id}
     </delete>

@@ -45,12 +45,11 @@ public class GoodsTypesServiceImpl implements GoodsTypeService {
 
     }
     @Override
-    public int goodsTypeDelAction(Map<String , Object> map, Integer gt_id ) {
-        // TODO Auto-generated method stub
+    public GoodsType goodsTypeDelAction(Integer gt_id ) {
+        GoodsType load = goodsTypeMapper.load(gt_id);
         int result = goodsTypeMapper.goodsTypeDelAction(gt_id);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return load;
         }else{
             throw new RuntimeException("删除失败");
         }

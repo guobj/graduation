@@ -28,6 +28,9 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/jsutil.js" type="text/javascript"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript">
         function supplierGoodsAdd() {
 			var addDialog = top.dialog({
@@ -42,43 +45,6 @@
 			addDialog.showModal();
 		}
     </script>
-    <script type="text/javascript">
-        function del(id){
-        	var delDialog = top.dialog({
-                title:'删除报价',
-                url:'supplierGoodsDel?id='+id,
-                width:'300px',
-                onclose:function (){
-                	window.location.href="supplierPriceList";
-                }
-            });
-            delDialog.showModal();
-        }
-    </script>
-    </script>
-    <script type="text/javascript">
-        function supplierGoodsMoreDel(){
-        	var sg_ids = new Array();
-    	   $("input[name='sg_id']:checked").each(function() {
-            //将选中数据存到数组里
-            sg_ids.push($(this).val());
-            });
-    	   if(sg_ids.length<=0){
-               alert("请选择要删除的数据！");
-           }else{
-                var delDialog = top.dialog({
-                    title:'删除商品',
-                    url:'supplierGoodsMoreDel.action?sg_ids='+sg_ids,
-                    width:'300px',
-                    onclose:function (){
-                       // self.location.reload();
-                    	window.location.href="supplierPriceList";
-                    }
-                });
-                delDialog.showModal();
-           }
-        }
-    </script>
 </head>
 
 <body class="gray-bg">
@@ -88,7 +54,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5><button type="button" class="btn btn-outline btn-info" onclick="supplierGoodsAdd()">新增报价</button>
-                            <button type="button" class="btn btn-outline btn-danger" onclick="supplierGoodsMoreDel()">批量删除</button>
+                            <button type="button" class="btn btn-outline btn-danger" onclick="delMore('sg_id','supplierGoodsMoreDel','supplierPriceList')">批量删除</button>
                         </h5>
                         <div class="ibox-tools">
                             <form action="supplierPriceList" method="post" target="_self">
@@ -133,7 +99,7 @@
                                     <td>${supplierGoods.sg_remark }</td>
                                     <td>
                                         <c:if test="${supplierGoods.sg_status eq 1}">
-                                            <button type="button" class="btn btn-outline btn-danger" onclick="del(${supplierGoods.sg_id } )">删除</button>
+                                            <button type="button" class="btn btn-outline btn-danger" onclick="del(${supplierGoods.sg_id } ,'supplierGoodsDel','supplierPriceList')">删除</button>
                                         </c:if>
                                         <c:if test="${supplierGoods.sg_status eq 0}">
                                                                                                         报价已无效

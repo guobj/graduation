@@ -170,7 +170,6 @@ public class SupplierServiceImpl implements SupplierService {
     //新增供应商报价
     @Override
     public int supplierGoodsAddAction(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
         SupplierGoods supplierGoods = (SupplierGoods) map.get("supplierGoods");
         int result = supplierGoodsMapper.supplierGoodsAddAction(supplierGoods);
         if(result>0){
@@ -182,24 +181,22 @@ public class SupplierServiceImpl implements SupplierService {
     }
     //逻辑删除一条数据
     @Override
-    public int supplierGoodsDelAction(Map<String , Object> map , Integer sg_id ) {
-        // TODO Auto-generated method stub
+    public SupplierGoods supplierGoodsDelAction(Integer sg_id ) {
+        SupplierGoods supplierGoods = supplierGoodsMapper.load(sg_id);
         int result = supplierGoodsMapper.supplierGoodsDelAction(sg_id);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return supplierGoods;
         }else{
             throw new RuntimeException("删除失败");
         }
     }
     //逻辑删除多条数据
     @Override
-    public int supplierGoodsMoreDelAction(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
-        int result = supplierGoodsMapper.supplierGoodsMoreDelAction(map);
+    public List supplierGoodsMoreDelAction(Integer[] sg_ids ) {
+        int result = supplierGoodsMapper.supplierGoodsMoreDelAction(sg_ids);
+        List list = supplierGoodsMapper.findAll(sg_ids);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return list;
         }else{
             throw new RuntimeException("删除失败");
         }

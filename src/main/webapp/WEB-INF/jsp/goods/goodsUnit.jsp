@@ -28,6 +28,9 @@
     <script src="artDialog/lib/jquery-1.10.2.js"></script>
     <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
+    <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <script type="text/javascript" src="js/jsutil.js"></script>
     <script type="text/javascript">
         function goodsUnitAdd() {
             var addDialog = top.dialog({
@@ -40,19 +43,6 @@
                 }
             });
             addDialog.showModal();
-        }
-    </script>
-    <script type="text/javascript">
-        function del(id){
-            var delDialog = top.dialog({
-                title:'删除商品',
-                url:'unitDel?id='+id,
-                width:'500px',
-                onclose:function (){
-                    window.location.href="goodsUnit";
-                }
-            });
-            delDialog.showModal();
         }
     </script>
 </head>
@@ -92,7 +82,7 @@
                                     <td><input name="gu_id" type="checkbox" value="${goodsunit.gu_id }"></td>
                                     <td>${goodsunit.gu_name }</td>
                                     <td>
-                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${goodsunit.gu_id })">删除</button>
+                                        <button type="button" class="btn btn-outline btn-danger" onclick="del(${goodsunit.gu_id },'goodsUnitDel','goodsUnit')">删除</button>
                                     </td>
                                     
                                 </tr>

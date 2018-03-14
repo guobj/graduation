@@ -1,6 +1,7 @@
 package com.gbj.service;
 
 import com.gbj.model.Supplier;
+import com.gbj.model.SupplierGoods;
 import com.gbj.model.SupplierLicenseType;
 
 import java.util.List;
@@ -49,10 +50,10 @@ public interface SupplierService {
 	public int supplierGoodsAddAction(Map<String, Object> map);
 
 	//逻辑删除报价
-	public int supplierGoodsDelAction(Map<String, Object> map, Integer sg_id);
+	public SupplierGoods supplierGoodsDelAction(Integer sg_id);
 
 	//逻辑删除多个报价
-	public int supplierGoodsMoreDelAction(Map<String, Object> map);
+	public List supplierGoodsMoreDelAction(Integer[] sg_ids);
 
 	/*
 	 *

@@ -149,36 +149,25 @@ public class SupplierController {
 
         return "main/message";
     }
-    //弹出删除信息框
-    @RequestMapping("/supplierGoodsDel")
-    public String supplierGoodsDel(Map<String , Object> map, Integer id){
-        map.put("id" , id);
-        map.put("url" , "supplierGoodsDel.action");
-        return "main/del";
-    }
+
     //通过ID删除该b报价的信息，，，逻辑删除
-    @RequestMapping("/supplierGoodsDel.action")
-    public String supplierGoodsDelAction(Map<String , Object> map, Integer id){
-        try{
-            map.put("sg_id" , id);
-            supplierService.supplierGoodsDelAction(map,id);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/supplierGoodsDel")
+    @ResponseBody
+    public JacksonData supplierGoodsDelAction(@RequestParam Integer id){
+        JacksonData backData = new JacksonData();
+        SupplierGoods supplierGoods = supplierService.supplierGoodsDelAction(id);
+        backData.success(supplierGoods);
+        return backData;
     }
+
     //通过map进行的批量删除，用户ID存到数组中去
-    @RequestMapping("/supplierGoodsMoreDel.action")
-    public String supplierGoodsMoreDelAction(Map<String , Object> map,Integer[] sg_ids){
-        try{
-            map.put("sg_ids" , sg_ids);
-            supplierService.supplierGoodsMoreDelAction(map);
-        }catch(Exception e){
-            // TODO: handle exception
-            map.put("message" , e.getMessage());
-        }
-        return "main/message";
+    @RequestMapping("/supplierGoodsMoreDel")
+    @ResponseBody
+    public JacksonData supplierGoodsMoreDelAction(Integer[] ids){
+        JacksonData backData = new JacksonData();
+        List list = supplierService.supplierGoodsMoreDelAction(ids);
+        backData.success(list);
+        return backData;
     }
     /*
      *

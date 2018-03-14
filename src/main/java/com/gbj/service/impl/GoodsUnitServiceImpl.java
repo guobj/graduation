@@ -22,7 +22,6 @@ public class GoodsUnitServiceImpl implements GoodsUnitService {
     }
     @Override
     public Map<String , Object> goodsUnitList(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
         List<GoodsUnit> goodsUnitList = goodsUnitMapper.goodsUnitList(map);
         int count = goodsUnitMapper.count(map);
         if(goodsUnitList!=null&&goodsUnitList.size()>0){
@@ -35,7 +34,6 @@ public class GoodsUnitServiceImpl implements GoodsUnitService {
     }
     @Override
     public int goodsUnitAddAction(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
         int result = goodsUnitMapper.goodsUnitAddAction((GoodsUnit)map.get("goodsUnit"));
         if(result>0){
             map.put("message" , "添加成功");
@@ -45,12 +43,11 @@ public class GoodsUnitServiceImpl implements GoodsUnitService {
         }
     }
     @Override
-    public int goodsUnitDelAction(Map<String , Object> map , Integer gu_id ) {
-        // TODO Auto-generated method stub
+    public GoodsUnit goodsUnitDelAction(Integer gu_id ) {
+        GoodsUnit goodsUnit = goodsUnitMapper.load(gu_id);
         int result = goodsUnitMapper.goodsUnitDelAction(gu_id);
         if(result>0){
-            map.put("message" , "删除成功");
-            return result;
+            return goodsUnit;
         }else{
             throw new RuntimeException("删除失败");
         }
