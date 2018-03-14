@@ -1,23 +1,17 @@
 package com.gbj.service.impl;
 
+import com.gbj.mapper.*;
+import com.gbj.model.*;
+import com.gbj.service.OrderService;
+import com.gbj.utils.TimeDemo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.gbj.mapper.ConsumerMapper;
-import com.gbj.mapper.EmployeeMapper;
-import com.gbj.mapper.GoodsMapper;
-import com.gbj.mapper.GoodsOutMapper;
-import com.gbj.mapper.OrderMapper;
-import com.gbj.model.Consumer;
-import com.gbj.model.Employee;
-import com.gbj.model.Goods;
-import com.gbj.model.GoodsOut;
-import com.gbj.model.Order;
-import com.gbj.service.OrderService;
-import com.gbj.utils.TimeDemo;
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
@@ -107,8 +101,8 @@ public class OrderServiceImpl implements OrderService {
     }
     //生成出库单
     @Override
-    public Map<String , Object> goodsStockOut(Map<String , Object> map,Integer or_id ) {
-        // TODO Auto-generated method stub
+    public Map<String , Object> goodsStockOut(Integer or_id ) {
+        Map<String , Object> map = new HashMap<String,Object>();
         Order order = orderMapper.loadOrder(or_id);
         GoodsOut goodsOut = new GoodsOut();
         goodsOut.setFk_con_id(order.getFk_con_id());
@@ -137,13 +131,12 @@ public class OrderServiceImpl implements OrderService {
     //查询饼图上的信息
     @Override
     public List<Map<String , Object>> salesSumOrder() {
-        // TODO Auto-generated method stub
         return orderMapper.salesSumOrder();
     }
     //取消未生成出库单的订单  只修改订单的状态位-1并将库存数改回原库存
+    @Transactional
     @Override
     public Order cancelOrder(Integer or_id ) {
-        // TODO Auto-generated method stub
         Order order = orderMapper.loadOrder(or_id);
         int result = orderMapper.cancelOrder(or_id);
         System.out.println("得到的状态职位"+order.getOr_status());
@@ -155,22 +148,19 @@ public class OrderServiceImpl implements OrderService {
                 goods.setGoods_id(order.getFk_goods_id());
                 System.out.println("商品ID"+order.getFk_goods_id());
                 goodsMapper.goodsStockInUpdateAction(goods);
+//                throw  new RuntimeException("取消成功");
                 return order;
             }
-        }else{
-            if(result>0){
-            }
         }
-return null;
+        return order;
     }
     //取消已生成出库单的订单  修改订单的状态和出库单的状态 订单-1 出库单-1
 
     @Override
-    public int cancelGoodsOut(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
-        Order order = orderMapper.loadOrder(Integer.parseInt(map.get("or_id").toString()));
-        int result = orderMapper.cancelOrder(Integer.parseInt(map.get("or_id").toString()));
-        int res = goodsOutMapper.cancelGoodsOut(Integer.parseInt(map.get("or_id").toString()));
+    public int cancelGoodsOut(Integer or_id ) {
+        Order order = orderMapper.loadOrder(or_id);
+        int result = orderMapper.cancelOrder(or_id);
+        int res = goodsOutMapper.cancelGoodsOut(or_id);
         if(result>0){
             if(res>0){
                 //执行库存回加
@@ -178,7 +168,7 @@ return null;
                 goods.setGoods_nums(order.getOr_nums());
                 goods.setGoods_id(order.getFk_goods_id());
                 goodsMapper.goodsStockInUpdateAction(goods);
-                map.put("message" , "订单已取消");
+//                map.put("message" , "订单已取消");
                 return result;
             }else{
                 throw new RuntimeException("取消失败");

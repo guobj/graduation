@@ -21,7 +21,7 @@ public interface OrderService {
 	public Map<String, Object> salesOrderDetails(Map<String, Object> map);
 
 	//生成出库单
-	public Map<String, Object> goodsStockOut(Map<String, Object> map, Integer or_id);
+	public Map<String, Object> goodsStockOut(Integer or_id);
 
 	//查询所有已完成订单的购买的商品ID
 	public List<Order> haveOrder();
@@ -33,7 +33,7 @@ public interface OrderService {
 	public Order cancelOrder(Integer or_id);
 
 	//取消已生成出库单的订单  修改订单的状态和出库单的状态 订单-1 出库单-1
-	public int cancelGoodsOut(Map<String, Object> map);
+	public int cancelGoodsOut(Integer or_id);
 
 	//查询订单明细
 	public Map<String, Object> load(Map<String, Object> map);

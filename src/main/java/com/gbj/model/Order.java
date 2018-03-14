@@ -14,6 +14,7 @@ public class Order {
 	private String or_senddate;
 	private Integer fk_emp_id;
 	private String or_remark;
+//	执行状态 0执行中 1执行中  2执行完毕 -1取消执行 3已生成出库单
 	private Integer or_status;
 	private Integer fk_goods_id;
 	private Double or_price;

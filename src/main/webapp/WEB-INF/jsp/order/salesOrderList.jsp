@@ -61,29 +61,109 @@
 <!--     取消未生成出库单的订单 -->
     <script type="text/javascript">
         function cancel(id){
-        	var delDialog = top.dialog({
-                title:'取消订单',
-                url:'cancelOrder?or_id='+id,
-                width:'300px',
-                onclose:function (){
-                	window.location.href="salesOrder";
-                }
-            });
-            delDialog.showModal();
+            swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this imaginary file!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确认",
+                    closeOnConfirm: false
+                },
+                function () {
+                    $.ajax(
+                        {
+                            type: "get",
+                            url: "cancelOrder",
+                            contentType: 'application/json;charset=UTF-8',
+                            dataType: "json",
+                            traditional: true,
+                            async: false,
+                            data: {
+                                "id": id
+                            },
+                            success: function (data) {
+//                                console.log(data.data.goods_id)
+                                swal({
+                                        title: '操作成功',
+                                        text: '2秒后自动关闭。',
+                                        timer: 2000
+                                    },
+                                    function () {
+                                        window.location.href = "salesOrder";
+                                    });
+//                                    swal("操作成功!", "已成功删除数据！", "success");
+//                                    window.location.href="goodsList";
+                            },
+                            error: function (data) {
+                                swal({
+                                        title: '操作失败',
+                                        text: '2秒后自动关闭。',
+                                        timer: 2000
+                                    },
+                                    function () {
+                                        window.location.href = "salesOrder";
+                                    });
+//                                    swal("OMG", "删除操作失败了!", "error");
+//                                    window.location.href="goodsList";
+                            }
+                        }
+                    )
+                });
         }
     </script>
 <!--     取消已生成出库单的订单 -->
     <script type="text/javascript">
         function cancelGoodsOut(id){
-            var delDialog = top.dialog({
-                title:'取消订单',
-                url:'cancelGoodsOut?or_id='+id,
-                width:'300px',
-                onclose:function (){
-                	window.location.reload();
-                }
-            });
-            delDialog.showModal();
+            swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this imaginary file!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确认",
+                    closeOnConfirm: false
+                },
+                function () {
+                    $.ajax(
+                        {
+                            type: "get",
+                            url: "cancelGoodsOut",
+                            contentType: 'application/json;charset=UTF-8',
+                            dataType: "json",
+                            traditional: true,
+                            async: false,
+                            data: {
+                                "id": id
+                            },
+                            success: function (data) {
+//                                console.log(data.data.goods_id)
+                                swal({
+                                        title: '操作成功',
+                                        text: '2秒后自动关闭。',
+                                        timer: 2000
+                                    },
+                                    function () {
+                                        window.location.href = "salesOrder";
+                                    });
+//                                    swal("操作成功!", "已成功删除数据！", "success");
+//                                    window.location.href="goodsList";
+                            },
+                            error: function (data) {
+                                swal({
+                                        title: '操作失败',
+                                        text: '2秒后自动关闭。',
+                                        timer: 2000
+                                    },
+                                    function () {
+                                        window.location.href = "salesOrder";
+                                    });
+//                                    swal("OMG", "删除操作失败了!", "error");
+//                                    window.location.href="goodsList";
+                            }
+                        }
+                    )
+                });
         }
     </script>
     <script type="text/javascript">
@@ -111,17 +191,54 @@
     </script>
 <!--    确认生成出库单 -->
     <script type="text/javascript">
-        function goodsStockOut(or_id){
-        	var addDialog = top.dialog({
-                title:'确认出库',
-                url:'goodsStockOutConfirm?or_id='+or_id,
-                width:'300px',
-                //height:'500px',
-                onclose:function (){
-                    window.location.reload();
-                }
-            });
-            addDialog.showModal();
+        function goodsStockOut(id){
+            swal({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this imaginary file!",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确认",
+                    closeOnConfirm: false
+                },
+                function () {
+                    $.ajax(
+                        {
+                            type: "get",
+                            url: "orderGoodsStockOut",
+                            contentType: 'application/json;charset=UTF-8',
+                            dataType: "json",
+                            traditional: true,
+                            async: false,
+                            data: {"id": id},
+                            success: function (data) {
+//                                console.log(data.data.goods_id)
+                                swal({
+                                        title: '操作成功',
+                                        text: '2秒后自动关闭。',
+                                        timer: 2000
+                                    },
+                                    function () {
+                                        window.location.href = "salesOrder";
+                                    });
+//                                    swal("操作成功!", "已成功删除数据！", "success");
+//                                    window.location.href="goodsList";
+                            },
+                            error: function (data) {
+                                swal({
+                                        title: '操作失败',
+                                        text: '2秒后自动关闭。',
+                                        timer: 2000
+                                    },
+                                    function () {
+                                        window.location.href = "salesOrder";
+                                    });
+//                                    swal("OMG", "删除操作失败了!", "error");
+//                                    window.location.href="goodsList";
+                            }
+                        }
+                    )
+                });
         }
     </script>
     <script type="text/javascript">
@@ -146,7 +263,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5><button type="button" class="btn btn-outline btn-info" onclick="salesOrderAdd()">新建订单</button>
-                            <button type="button" class="btn btn-outline btn-danger" onclick="goodsMoreDel()">批量删除</button>
+                            <%--<button type="button" class="btn btn-outline btn-danger" onclick="goodsMoreDel()">批量删除</button>--%>
                         </h5>
                         <div class="ibox-tools">
                             <form action="salesOrder" method="post" target="_self">
@@ -215,7 +332,7 @@
                                         </c:if>
 <!--                                         已生成出库单取消需改变两个状态   出库单的状态和订单的状态 -->
                                         <c:if test="${order.or_status eq 3 }">
-                                            <button type="button" class="btn btn-outline btn-info" onclick="salesOrderDetail(${order.or_id })">订单明细</button>
+                                            <button type="button" class="btn btn-outline btn-info" onclick="orderDetails(${order.or_id })">订单明细</button>
                                             <button type="button" class="btn btn-outline btn-danger" onclick="cancelGoodsOut(${order.or_id })">取消</button>
                                         </c:if>
                                         
