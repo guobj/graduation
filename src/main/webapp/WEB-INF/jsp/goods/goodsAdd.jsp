@@ -122,7 +122,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="ibox float-e-margins">
-                    <div class="ibox-content">
+                    <div class="ibox-content" style="overflow: scroll;height: 500px;">
                         <form target="_self" action="goodsAddAction" method="post" class="form-horizontal m-t" id="signupForm" enctype="multipart/form-data" onsubmit="return confirmInfo()">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">商品名称：</label>
