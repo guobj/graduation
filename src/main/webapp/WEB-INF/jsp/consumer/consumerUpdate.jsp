@@ -284,7 +284,7 @@
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
-            <form target="_self" method="post" action="consumerUpdate.action" class="form-horizontal m-t" id="signupForm" enctype="multipart/form-data" onsubmit="confirmInfo()">
+            <form target="_self" method="post" action="consumerUpdate.action" class="form-horizontal m-t" id="signupForm" enctype="multipart/form-data" onsubmit="return confirmInfo()">
                 <input type="hidden" name="con_id" value="${consumerMap.con_id }">
                 <div class="col-sm-6">
                     <div class="ibox float-e-margins">

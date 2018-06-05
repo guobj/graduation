@@ -29,10 +29,10 @@
     <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
-    <script src="artDialog/lib/jquery-1.10.2.js"></script>
-    <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
     <script src="artDialog/dist/dialog-plus.js"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
+    <link rel="stylesheet" href="artDialog/css/ui-dialog.css">
+    <script src="artDialog/dist/dialog-plus.js"></script>
     <script src="js/plugins/sweetalert/sweetalert.min.js"></script>
     <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
     <script type="text/javascript" src="js/jsutil.js"></script>
@@ -46,6 +46,7 @@
                 height: 30px;
                 border-style: white;
                 border-width: 2px;
+                margin: 2px 0px 500px 200px;
             }
     </style>
     <script type="text/javascript">
@@ -125,8 +126,22 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="logo-element">H+
+                        <div class="logo-element">CRM
                         </div>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label">系统首页</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" href="firstPage" data-index="0">
+                                   系统首页
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <c:forEach items="${fatherMenuList }" var="father">
                     <li>
@@ -153,48 +168,86 @@
         <!--左侧导航结束-->
         <!--右侧部分开始-->
         <div id="page-wrapper" class="gray-bg dashbard-1">
-        <div class="row border-bottom">
+            <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                    <ul class="nav navbar-top-links navbar-right">
-                    <div class="date_now"><font id="date" size="4"></font></div>
-                    <script type="text/javascript">
-                        var weekend = ["星期天","星期一","星期二","星期三","星期四","星期五","星期六"];
-                        function time_show(){
-                            var date = new Date();
-                            var seperator1 = "-";
-                            var seperator2 = ":";
-                            var month = date.getMonth() + 1;
-                            var strDate = date.getDate();
-                            if (month >= 1 && month <= 9) {
+                    <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0)"><i class="fa fa-bars"></i> </a>
+                                <div class="date_now"><font id="date" size="4"></font></div>
+                                <script type="text/javascript">
+                                var weekend = ["星期天","星期一","星期二","星期三","星期四","星期五","星期六"];
+                                function time_show(){
+                                var date = new Date();
+                                var seperator1 = "-";
+                                var seperator2 = ":";
+                                var month = date.getMonth() + 1;
+                                var strDate = date.getDate();
+                                if (month >= 1 && month <= 9) {
                                 month = "0" + month;
-                            }
-                            if (strDate >= 0 && strDate <= 9) {
+                                }
+                                if (strDate >= 0 && strDate <= 9) {
                                 strDate = "0" + strDate;
-                            }
-                            var minute = date.getMinutes();
-                            if(minute >= 0 && minute <= 9){
-                            	minute = "0" + minute;
-                            }
-                            var second = date.getSeconds();
-                            if(second >= 0 && second <= 9){
-                            	second = "0" + second;
-                            }
-                            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
-                                    + " " + date.getHours() + seperator2 + minute
-                                    + seperator2 + second + " "+weekend[date.getDay()];
-                            $("#date").html(currentdate);
-                        }
-                        setInterval("time_show()", 1000);
-                    </script>
+                                }
+                                var minute = date.getMinutes();
+                                if(minute >= 0 && minute <= 9){
+                                minute = "0" + minute;
+                                }
+                                var second = date.getSeconds();
+                                if(second >= 0 && second <= 9){
+                                second = "0" + second;
+                                }
+                                var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+                                + " " + date.getHours() + seperator2 + minute
+                                + seperator2 + second + " "+weekend[date.getDay()];
+                                $("#date").html(currentdate);
+                                }
+                                setInterval("time_show()", 1000);
+                                </script>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
                     </ul>
                 </nav>
             </div>
+        <%--<div class="row border-bottom">--%>
+                <%--<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">--%>
+                    <%--<ul class="nav navbar-top-links navbar-right">--%>
+                    <%--<div class="date_now"><font id="date" size="4"></font></div>--%>
+                    <%--<script type="text/javascript">--%>
+                        <%--var weekend = ["星期天","星期一","星期二","星期三","星期四","星期五","星期六"];--%>
+                        <%--function time_show(){--%>
+                            <%--var date = new Date();--%>
+                            <%--var seperator1 = "-";--%>
+                            <%--var seperator2 = ":";--%>
+                            <%--var month = date.getMonth() + 1;--%>
+                            <%--var strDate = date.getDate();--%>
+                            <%--if (month >= 1 && month <= 9) {--%>
+                                <%--month = "0" + month;--%>
+                            <%--}--%>
+                            <%--if (strDate >= 0 && strDate <= 9) {--%>
+                                <%--strDate = "0" + strDate;--%>
+                            <%--}--%>
+                            <%--var minute = date.getMinutes();--%>
+                            <%--if(minute >= 0 && minute <= 9){--%>
+                            	<%--minute = "0" + minute;--%>
+                            <%--}--%>
+                            <%--var second = date.getSeconds();--%>
+                            <%--if(second >= 0 && second <= 9){--%>
+                            	<%--second = "0" + second;--%>
+                            <%--}--%>
+                            <%--var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate--%>
+                                    <%--+ " " + date.getHours() + seperator2 + minute--%>
+                                    <%--+ seperator2 + second + " "+weekend[date.getDay()];--%>
+                            <%--$("#date").html(currentdate);--%>
+                        <%--}--%>
+                        <%--setInterval("time_show()", 1000);--%>
+                    <%--</script>--%>
+                    <%--</ul>--%>
+                <%--</nav>--%>
+            <%--</div>--%>
             <div class="row content-tabs">
                 <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i>
                 </button>
                 <nav class="page-tabs J_menuTabs">
                     <div class="page-tabs-content">
-                        <a href="javascript:;" class="active J_menuTab" data-id="index">首页</a>
+                        <%--<a href="javascript:;" class="active J_menuTab" data-id="index">首页</a>--%>
                     </div>
                 </nav>
                 <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
@@ -216,7 +269,7 @@
                 <a href="login.html" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
             </div>
             <div class="row J_mainContent" id="content-main">
-                <iframe id="testindex" class="J_iframe" name="iframe0" width="100%" height="100%" src="index" frameborder="0" data-id="index_v2.html" seamless></iframe>
+                <iframe id="testindex" class="J_iframe" name="iframe0" width="100%" height="100%" src="firstPage" frameborder="0" data-id="index_v2.html" seamless></iframe>
                 <%--<jsp:include page="../main/index.jsp"></jsp:include>--%>
             </div>
         </div>
@@ -224,6 +277,13 @@
         <!--右侧边栏开始-->
         <!--右侧边栏结束-->
         <!--mini聊天窗口开始-->
+        <%--<div id="small-chat">--%>
+            <%--<span class="badge badge-warning pull-right">5</span>--%>
+            <%--<a class="open-small-chat">--%>
+                <%--<i class="fa fa-comments"></i>--%>
+
+            <%--</a>--%>
+        <%--</div>--%>
     </div>
     <script src="js/jquery.min.js?v=2.1.4"></script>
     <script src="js/bootstrap.min.js?v=3.3.5"></script>

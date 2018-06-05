@@ -67,7 +67,7 @@ public class LoginController {
 	}
 
 	//进入index页
-	@RequestMapping("/index")
+	@RequestMapping("/firstPage")
 	public String index() {
 		return "main/index";
 	}

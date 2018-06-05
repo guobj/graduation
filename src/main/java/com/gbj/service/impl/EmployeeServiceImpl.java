@@ -174,4 +174,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException("删除失败");
         }
     }
+
+    @Override
+    public Employee isAccount(String account) {
+        Employee emp = employeeMapper.isAccount(account);
+        if(emp == null){
+            return null;
+        }else {
+            throw new RuntimeException("账号已存在");
+        }
+    }
 }

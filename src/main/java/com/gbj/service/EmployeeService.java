@@ -38,4 +38,7 @@ public interface EmployeeService {
 
 	//逻辑删除多个用户
 	public List employeeNotMoreDelAction(Integer[] emp_ids);
+
+	//验证账号是否存在
+	public Employee isAccount(String account);
 }

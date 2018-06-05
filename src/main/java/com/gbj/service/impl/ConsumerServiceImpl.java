@@ -26,10 +26,9 @@ public class ConsumerServiceImpl implements ConsumerService {
     private SaleModelMapper saleModelMapper;
     @Override
     public Map<String , Object> consumerList(Map<String , Object> map ) {
-        // TODO Auto-generated method stub
         List<Consumer> consumerList = consumerMapper.consumerList(map);
         int count = consumerMapper.count(map);
-        if(consumerList!=null&&consumerList.size()>0){
+        if(consumerList != null && consumerList.size() > 0){
             map.put("consumerList" , consumerList);
             map.put("count" , count);
             //System.out.println(goodsList);

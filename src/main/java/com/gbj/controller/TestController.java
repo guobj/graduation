@@ -95,4 +95,20 @@ public class TestController {
 //ceas
 	//
 
+	public static void test(String a[]){
+
+	 		for(int i = 0;i<a.length -1 ;i++){
+	 			a[i] = "i="+i;
+			}
+	}
+
+	public static void main(String[] args) {
+		String[] arg = {"q","w","e"};
+	 		test(arg);
+	 		int i =0;
+	 		while (i<arg.length - 1){
+	 			System.out.print(arg[i]);
+	 			i++;
+			}
+	}
 }

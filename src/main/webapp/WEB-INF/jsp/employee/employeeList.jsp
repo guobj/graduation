@@ -103,7 +103,7 @@
                             </thead>
                             <tbody>
                             <c:if test="${employeeList eq null}">
-                                <tr><td colspan="9"  style="text-align: center;"><font color="red" size="4">${message }</font> </td></tr>
+                                <tr><td colspan="14"  style="text-align: center;"><font color="red" size="4">${message }</font> </td></tr>
                             </c:if>
                             <c:if test="${employeeList != null}">
                             <c:forEach items="${employeeList }" var="employee">

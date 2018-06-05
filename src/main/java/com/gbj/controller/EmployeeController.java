@@ -104,9 +104,13 @@ public class EmployeeController {
     //离职员工的模糊查询及分页
     @RequestMapping("/empsNotList")
     public String employeeNotList(Map<String , Object> map,Employee employee,@RequestParam(required=false,defaultValue="1")Integer pages,HttpServletRequest request){
-        map = PageBean.serverMap(map , employee , pages);
-        map = employeeService.employeeNotList(map);
-        map = PageBean.clientMap(map , pages , request);
+       try{
+           map = PageBean.serverMap(map , employee , pages);
+           map = employeeService.employeeNotList(map);
+           map = PageBean.clientMap(map , pages , request);
+       }catch (Exception e){
+           map.put("message", e.getMessage());
+       }
         return "employee/employeeNotList";
     }
     //通过ID恢复该用户的职位，，，逻辑恢复
@@ -118,5 +122,17 @@ public class EmployeeController {
         backData.success(employee);
         return backData;
     }
-    
+
+    @RequestMapping("/isAccount")
+    @ResponseBody
+    public JacksonData isAccount(@RequestParam String account){
+        JacksonData backData = new JacksonData();
+       try {
+           Employee emp = employeeService.isAccount(account);
+           backData.success(emp);
+       }catch (Exception e){
+           backData.failure(e.getMessage());
+       }
+        return backData;
+    }
 }

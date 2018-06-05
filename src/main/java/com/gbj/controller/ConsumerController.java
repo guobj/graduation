@@ -26,9 +26,13 @@ public class ConsumerController {
     @RequestMapping("/consumerList")
     //客户基本信息查询及分页
     public String consumerList(Map<String , Object> map,Consumer consumer,@RequestParam(required=false,defaultValue="1")Integer pages,HttpServletRequest request){
-        map = PageBean.serverMap(map , consumer , pages);
-        map = consumerService.consumerList(map);
-        map = PageBean.clientMap(map , pages , request);
+        try {
+            map = PageBean.serverMap(map , consumer , pages);
+            map = consumerService.consumerList(map);
+            map = PageBean.clientMap(map , pages , request);
+        }catch (Exception e){
+            map.put("message",e.getMessage());
+        }
         return "consumer/consumerList";
     }
     //弹出添加框 客户基本信息

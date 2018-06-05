@@ -82,7 +82,7 @@
                             </thead>
                             <tbody>
                             <c:if test="${supplierGoodsList eq null }">
-                                <tr style="text-align: center;"><td><font style="text-align: center;" color="red" size="4">${message }</font> </td></tr>
+                                <tr style="text-align: center;"><td  colspan="7"><font style="text-align: center;" color="red" size="4">${message }</font> </td></tr>
                             </c:if>
                              <c:if test="${supplierGoodsList != null }">
                             <c:forEach items="${supplierGoodsList }" var="supplierGoods">

@@ -54,9 +54,9 @@
 <!--     添加供应商 -->
     <insert id="supplierAddAction" parameterType="com.gbj.model.Supplier">
         INSERT INTO 
-            supplier(sup_name,sup_tel,sup_bank,sup_bank_id,sup_scope,sup_logo,sup_time,fk_et_id,fk_cg_id,fk_pro_id,fk_city_id,fk_country_id) 
+            supplier(sup_name,sup_tel,sup_bank,sup_bank_id,sup_scope,sup_logo,sup_time,fk_et_id,fk_cg_id,fk_pro_id,fk_city_id,fk_country_id,sup_status)
         VALUES
-            (#{sup_name},#{sup_tel},#{sup_bank},#{sup_bank_id},#{sup_scope},#{sup_logo},#{sup_time},#{fk_et_id},#{fk_cg_id},#{fk_pro_id},#{fk_city_id},#{fk_country_id})
+            (#{sup_name},#{sup_tel},#{sup_bank},#{sup_bank_id},#{sup_scope},#{sup_logo},#{sup_time},#{fk_et_id},#{fk_cg_id},#{fk_pro_id},#{fk_city_id},#{fk_country_id},1)
     </insert>
 <!--     修改供应商信息 -->
     <update id="supplierUpdateAction" parameterType="com.gbj.model.Supplier">

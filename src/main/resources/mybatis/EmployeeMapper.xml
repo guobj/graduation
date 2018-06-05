@@ -26,6 +26,15 @@
     WHERE 
         account=#{employee.account} and password=#{employee.password}
    </select>
+    <!--账号是否存在-->
+    <select id="isAccount" parameterType="string" resultType="com.gbj.model.Employee">
+    SELECT
+        *
+    FROM
+        employee
+    WHERE
+        account=#{account}
+   </select>
 <!--    权限分配 -->
    <select id="sonMenuList" parameterType="integer" resultType="com.gbj.model.Menu">
     SELECT 

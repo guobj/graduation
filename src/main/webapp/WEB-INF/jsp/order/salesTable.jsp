@@ -27,7 +27,8 @@
                url:"salesSumOrder",  
                dataType:"json",  
                async: false,  
-               success:function(data){  
+               success:function(data){
+                   debugger
                   var rows=eval(data);  
                //调用函数获取值，转换成数组模式  
                   for(var i=0;i<rows.length;i++){  

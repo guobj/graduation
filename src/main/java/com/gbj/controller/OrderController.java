@@ -111,7 +111,6 @@ public class OrderController {
 			out.flush();
 			out.close();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.getMessage();
 		}
 	}

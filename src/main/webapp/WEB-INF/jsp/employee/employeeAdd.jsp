@@ -95,6 +95,24 @@
     });
     </script>
     <script type="text/javascript">
+        $(function() {
+            $("#account").change(function(){
+                $.get(
+                    "isAccount",
+                    {account:$("#account").val()},
+                    function (data) {
+                        if(data.meta.success){
+                            $("#e_account").css("color","green");
+                            $("#e_account").html("√");
+                        }else{
+                            $("#e_account").css("color","red");
+                            $("#e_account").html(data.meta.message);
+                        }
+                    },
+                    "json"
+                )
+            });
+        });
             function confirmInfo() {
             	//汉字
                 var ch=/^[\u4e00-\u9fa5]*$/;

@@ -50,4 +50,7 @@ public interface EmployeeMapper {
 
 	//批量删除离职员工不可恢复
 	public int employeeNotMoreDelAction(Integer[] emp_ids);
+
+	//验证账号是否存在
+	public Employee isAccount(String account);
 }

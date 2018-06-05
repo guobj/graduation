@@ -278,23 +278,23 @@
                             <thead>
                                 <tr>
                                     <th><input type="checkbox"></th>
-                                    <th>单号</th>
-                                    <th>主题</th>
-                                    <th>客户</th>
-                                    <th>地址</th>
-                                    <th>联系方式</th>
-                                    <th>签约日期</th>
-                                    <th>最晚出货</th>
-                                    <th>我方代表</th>
-                                    <th>状态</th>
-                                    <th>备注</th>
+                                    <th style="text-align: center;">单号</th>
+                                    <th style="text-align: center;">主题</th>
+                                    <th style="text-align: center;">客户</th>
+                                    <th style="text-align: center;">地址</th>
+                                    <th style="text-align: center;">联系方式</th>
+                                    <th style="text-align: center;">签约日期</th>
+                                    <th style="text-align: center;">最晚出货</th>
+                                    <th style="text-align: center;">我方代表</th>
+                                    <th style="text-align: center;">状态</th>
+                                    <th style="text-align: center;">备注</th>
                                     <th>操作</th>
                                     
                                 </tr>
                             </thead>
                             <tbody>
                             <c:if test="${salesOrderList eq null }">
-                                <tr style="text-align: center;"><td><font style="text-align: center;" color="red" size="4">${message }</font> </td></tr>
+                                <tr><td colspan="11"  style="text-align: center;"><font style="text-align: center;" color="red" size="4">${message }</font> </td></tr>
                             </c:if>
                             <c:if test="${salesOrderList != null }">
                             <c:forEach items="${salesOrderList }" var="order">

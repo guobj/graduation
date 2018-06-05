@@ -90,7 +90,7 @@
                             </thead>
                             <tbody>
                             <c:if test="${goodsStockOutList eq null }">
-                                <tr><td><font color="red" size="4">${message }</font> </td></tr>
+                                <tr><td colspan="9"  style="text-align: center;"><font color="red" size="4">${message }</font> </td></tr>
                             </c:if>
                             <c:if test="${goodsStockOutList !=null }">
                             <c:forEach items="${goodsStockOutList }" var="goodsStock">
@@ -109,7 +109,7 @@
                                     <td>${goodsStock.employee.emp_name}</td>
                                     <td><c:if test="${goodsStock.go_status eq 0}">
                                             <button type="button" class="btn btn-outline btn-info" onclick="confirmGoodsOut(${goodsStock.go_id })">确认出库</button>
-                                            <button type="button" class="btn btn-outline btn-danger" onclick="del(${goods.goods_id })">取消</button>
+                                           <%-- <button type="button" class="btn btn-outline btn-danger" onclick="del(${goods.goods_id })">取消</button>--%>
                                         </c:if>
                                         <c:if test="${goodsStock.go_status eq 1}">
                                                                                            交易完成
