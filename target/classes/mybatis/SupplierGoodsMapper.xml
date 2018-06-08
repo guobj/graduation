@@ -13,8 +13,8 @@
         <association property="supplier" column="fk_sup_id" select="com.gbj.mapper.SupplierMapper.load"/>
         <association property="goods" column="fk_goods_id" select="com.gbj.mapper.GoodsMapper.load"/>
     </resultMap>
-    <select id="load" parameterType="integer" resultMap="SupplierGoodsBaseResultMap">
-        SELECT * FROM supplier_goods WHERE sup_id=#{sup_id}
+    <select id="load" parameterType="integer" resultType="com.gbj.model.SupplierGoods">
+        SELECT * FROM supplier_goods WHERE sg_id=#{sg_id}
     </select>
     <select id="supplierGoodsList" parameterType="map" resultMap="SupplierGoodsBaseResultMap">
         SELECT * FROM (SELECT 
@@ -64,7 +64,7 @@
         
     </update>
 <!--     批量删除报价 -->
-    <update id="supplierGoodsMoreDelAction" parameterType="map">
+    <update id="supplierGoodsMoreDelAction" parameterType="integer">
         UPDATE 
             supplier_goods 
         SET
@@ -72,9 +72,23 @@
         WHERE
             sg_id   
         IN
-        <foreach collection="sg_ids" close=")" open="(" item="sg_id" separator=",">
+        <foreach collection="array" close=")" open="(" item="sg_id" separator=",">
             #{sg_id}
         </foreach>
         
     </update>
+
+    <!--查询删除的数据-->
+    <select id="findAll" parameterType="integer" resultType="com.gbj.model.SupplierGoods">
+        SELECT
+            *
+        FROM
+            supplier_goods
+        WHERE
+            sg_id
+        IN
+        <foreach collection="array" close=")" open="(" item="sg_id" separator=",">
+            #{sg_id}
+        </foreach>
+    </select>
   </mapper>

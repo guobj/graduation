@@ -126,4 +126,6 @@
         WHERE 
             or_id=#{or_id}
     </update>
+
+    <!--删除订单-->
 </mapper>

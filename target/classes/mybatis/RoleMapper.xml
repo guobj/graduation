@@ -44,5 +44,6 @@
             * 
         FROM 
             role
+        where role_id != 1
       </select>
   </mapper>

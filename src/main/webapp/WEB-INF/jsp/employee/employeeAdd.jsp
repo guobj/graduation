@@ -104,9 +104,11 @@
                         if(data.meta.success){
                             $("#e_account").css("color","green");
                             $("#e_account").html("√");
+                            $("#submit").removeAttrs("disabled");
                         }else{
                             $("#e_account").css("color","red");
                             $("#e_account").html(data.meta.message);
+                            $("#submit").attr("disabled","disabled");
                         }
                     },
                     "json"
@@ -420,7 +422,7 @@
                             
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-3">
-                                    <button class="btn btn-primary" type="submit">提交</button>
+                                    <button id="submit" class="btn btn-primary" type="submit">提交</button>
                                 </div>
                             </div>
                             

@@ -24,6 +24,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 //                    + "</script>");
 //            out.flush();
 //            out.close();
+            //response.sendRedirect("/error");
             request.getRequestDispatcher("/error").forward(request,response);
             System.out.println("BKJkjzxnckjndcsdksns"+request.getContextPath());
             return false;

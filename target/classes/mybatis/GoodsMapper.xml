@@ -16,6 +16,7 @@
     <select id="goodsList" parameterType="map" resultMap="GoodsBaseResultMap">
         SELECT * FROM goods 
         <where>
+            goods_state = 0
             <if test="goods.goods_name!=null and goods.goods_name.trim()!=''">
                 AND goods_name LIKE concat("%",#{goods.goods_name},"%")
             </if>
@@ -26,17 +27,32 @@
     <select id="count" parameterType="map" resultType="integer">
         SELECT COUNT(*) FROM goods
         <where>
+            goods_state = 0
             <if test="goods.goods_name!=null and goods.goods_name.trim()!=''">
                 AND goods_name LIKE concat("%",#{goods.goods_name},"%")
             </if>
         </where>
     </select>
+
+    <!--多条删除后，将删除数据返回前端，勿轻易使用；-->
+    <select id="queryDelList" parameterType="integer" resultType="com.gbj.model.Goods">
+        SELECT
+            *
+        FROM
+            goods
+        WHERE
+            goods_id
+        IN
+        <foreach collection="array" close=")" open="(" item="goods_id" separator=",">
+            #{goods_id}
+        </foreach>
+    </select>
 <!--     插入商品数据 -->
     <insert id="goodsAdd" parameterType="com.gbj.model.Goods">
         INSERT INTO 
-            goods(goods_name,fk_gt_id,goods_price,goods_vipprice,fk_sup_id,goods_logo,fk_gu_id) 
+            goods(goods_name,fk_gt_id,goods_price,goods_vipprice,fk_sup_id,goods_logo,fk_gu_id,goods_state)
         VALUES
-            (#{goods_name},#{fk_gt_id},#{goods_price},#{goods_vipprice},#{fk_sup_id},#{goods_logo},#{fk_gu_id})
+            (#{goods_name},#{fk_gt_id},#{goods_price},#{goods_vipprice},#{fk_sup_id},#{goods_logo},#{fk_gu_id},0)
     </insert>
     <select id="load" parameterType="integer" resultMap="GoodsBaseResultMap">
         SELECT 
@@ -78,22 +94,42 @@
         WHERE goods_id=#{goods_id}
     </update> 
 <!--     //物理删除 -->
-    <delete id="goodsDel" parameterType="integer">
-        DELETE FROM 
-            goods 
-        WHERE goods_id=#{goods_id}
-    </delete>
+    <!--<delete id="goodsDel" parameterType="integer">-->
+        <!--DELETE FROM -->
+            <!--goods -->
+        <!--WHERE goods_id=#{goods_id}-->
+    <!--</delete>-->
+    <update id="goodsDel" parameterType="integer" >
+        UPDATE
+          goods
+        SET
+          goods_state = 1
+        WHERE
+          goods_id=#{goods_id}
+    </update>
 <!--     物理删除多条 -->
-    <delete id="goodsMoreDel" parameterType="map">
-        DELETE FROM 
-            goods 
-        WHERE 
-            goods_id 
-        IN 
-        <foreach collection="goods_ids" item="goods_id" open="(" close=")" separator=",">
-            #{goods_id}
-        </foreach>
-    </delete>
+    <!--<delete id="goodsMoreDel" parameterType="map">-->
+        <!--DELETE FROM -->
+            <!--goods -->
+        <!--WHERE -->
+            <!--goods_id -->
+        <!--IN -->
+        <!--<foreach collection="goods_ids" item="goods_id" open="(" close=")" separator=",">-->
+            <!--#{goods_id}-->
+        <!--</foreach>-->
+    <!--</delete>-->
+    <update id="goodsMoreDel" parameterType="integer" >
+        UPDATE
+            goods
+        SET
+            goods_state = 1
+        WHERE
+            goods_id
+        IN
+            <foreach collection="array" close=")" open="(" item="goods_id" separator=",">
+                #{goods_id}
+            </foreach>
+    </update>
 <!--     查询商品库存 -->
     <select id="goodsStockList" parameterType="map" resultMap="GoodsBaseResultMap">
         SELECT * FROM goods 

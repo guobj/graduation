@@ -239,7 +239,7 @@
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
+        <div class="row" style="overflow: scroll;height: 400px;">
             <form target="_self" method="post" action="consumerAdd.action" class="form-horizontal m-t" id="signupForm" enctype="multipart/form-data" onsubmit="return confirmInfo()">
             <div class="col-sm-6">
                     <div class="ibox float-e-margins">

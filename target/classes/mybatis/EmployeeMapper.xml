@@ -26,6 +26,15 @@
     WHERE 
         account=#{employee.account} and password=#{employee.password}
    </select>
+    <!--账号是否存在-->
+    <select id="isAccount" parameterType="string" resultType="com.gbj.model.Employee">
+    SELECT
+        *
+    FROM
+        employee
+    WHERE
+        account=#{account}
+   </select>
 <!--    权限分配 -->
    <select id="sonMenuList" parameterType="integer" resultType="com.gbj.model.Menu">
     SELECT 
@@ -148,7 +157,7 @@
             emp_id=#{emp_id}
     </update>
     <!-- 批量逻辑删除 -->
-    <update id="employeeMoreDelAction" parameterType="map">
+    <update id="employeeMoreDelAction" parameterType="integer">
         UPDATE 
             employee
         SET
@@ -156,7 +165,7 @@
         WHERE
             emp_id
         IN
-            <foreach collection="emp_ids" open="(" close=")" separator="," item="emp_id">
+            <foreach collection="array" open="(" close=")" separator="," item="emp_id">
                 #{emp_id}
             </foreach>
     </update>
@@ -218,5 +227,18 @@
             password=#{password}
         WHERE
             emp_id=#{emp_id}
+    </update>
+<!--//批量删除离职员工不可恢复！！！！-->
+    <update id="employeeNotMoreDelAction" parameterType="integer">
+        UPDATE
+            employee
+        SET
+            emp_status=-1
+        WHERE
+            emp_id
+        IN
+        <foreach collection="array" open="(" close=")" separator="," item="emp_id">
+            #{emp_id}
+        </foreach>
     </update>
   </mapper>

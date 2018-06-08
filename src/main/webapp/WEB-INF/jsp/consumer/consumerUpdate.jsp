@@ -283,7 +283,7 @@
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
+        <div class="row" style="overflow: scroll;height: 400px;">
             <form target="_self" method="post" action="consumerUpdate.action" class="form-horizontal m-t" id="signupForm" enctype="multipart/form-data" onsubmit="return confirmInfo()">
                 <input type="hidden" name="con_id" value="${consumerMap.con_id }">
                 <div class="col-sm-6">
